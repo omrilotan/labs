@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+        <meta http-equiv='X-UA-Compatible' content='IE=edge' />
+        <style type="text/css">
+* {
+    padding:0; margin:0; border:0;
+}
+body {
+    font:normal 13px/16px sans-serif;
+}
+#wrapper {
+    width:600px;
+    height:500px;
+    border:solid 1px grey;
+    overflow:auto;
+    margin:50px auto;
+    background:url(data:image/gif;base64,R0lGODlhEAAQAJEDAIiIiKqqqszMzP///yH/C05FVFNDQVBFMi4wAwEAAAAh+QQFMgADACwAAAAAEAAQAAACI5yPqct9AoWJclA6Y74VW95pH7eF5GheZem14Iq6EOzU9l0AACH5BAUAAAMALAAAAgAEAAwAAAIGjI+py30FACH5BAkAAAMALAAAAAAKABAAAAIghDGph5qcggxwTHrirJfvbH2GJnkl2KFik47h6TqVUwAAIfkECQAAAwAsAAAAABAAEAAAAi+cDwnHrduCDOaZiemwI8+qXJ7GjWTYjWAieitkvm0mp+6Gxjhr0zv8caAaQh6jAAAh+QQJAAADACwAAAAAEAAQAAACNZyPBgvpw1oKNCgmsjDVQqxx1bVo29CRgClSKouOXxnG7rzWKQ7vUS/76YIMh6/4QESSSkYBACH5BAUAAAMALAAAAAAQABAAAAIqnI+pyxwfhBRm0gHjrBtDy0lGBg4l2Z1f2qGi2a6v+pS0NsdPc2T8/ysAADs=) center center no-repeat;
+}
+#wrapper table {
+    width:100%;
+    border-collapse: collapse;
+}
+#wrapper table tr {
+    height:26px;
+}
+#wrapper table td {
+    border:solid 1px #aaa;
+    width:10%;
+}
+span {
+    display:block;
+    height:25px; line-height:25px;
+    text-align:center;
+    color:#666;
+    background:white;
+}
+        </style>
+    </head>
+    <body>
+        <div id='wrapper'></div>
+        <script type="text/javascript">
+            var dataitem = (function () {
+                var array = [],
+                    rows = 10000,
+                    all = rows - 1;
+                while (rows--) {
+                    array.push(all - rows);
+                }
+                return array;
+            })();
+            
+            var buildTableRow = function (dataitem, i) {
+                var tr = document.createElement('tr'),
+                    columns = 10,
+                    z = columns;
+                while (z--) {
+                    tdnum = (dataitem[i]) + (columns - z);
+                    td = document.createElement('td');
+                    node = document.createTextNode(tdnum);
+                    span = document.createElement('span');
+                    span.appendChild(node);
+                    td.appendChild(span);
+                    tr.appendChild(td);
+                    node = null;
+                    td = null;
+                }
+                return tr;
+            };
+            
+            var DynamicTable = function (wrapperId, dataitem, options) {
+                var that = this,
+                    wrapper = document.getElementById(wrapperId),
+                    dataitem = dataitem;
+                options = typeof options === 'object' ? options : {};
+                return {
+                    buildTable: function (columns, codeafter) {
+                        var whatsTooBig = options.whatsTooBig || 100,
+                            offset = options.offset || 20,
+                            table,
+                            tr,
+                            td,
+                            node,
+                            rows = dataitem.length,
+                            i,
+                            rowHeight,
+                            clientHeight = wrapper.clientHeight,
+                            visibleRows;
+
+                            // find row height
+                            table = document.createElement('table');
+                            tr = document.createElement('tr');
+                            td = document.createElement('td');
+                            span = document.createElement('span');
+                            node = document.createTextNode('hello');
+                            
+                            span.appendChild(node);
+                            td.appendChild(span);
+                            tr.appendChild(td);
+                            table.appendChild(tr);
+                            wrapper.appendChild(table);
+                            rowHeight = tr.offsetHeight;
+                            wrapper.removeChild(table);
+                            node = null;
+                            span = null;
+                            td = null;
+                            tr = null;
+                            table = null;
+                            visibleRows = Math.ceil(clientHeight / rowHeight) + (offset * 2)
+                            
+                            
+                        var buildRows = function (columns, codeafter) {
+                            if (dataitem.length > whatsTooBig) {
+                                var firstVisibleRow = (function () {
+                                        var returnValue = Math.ceil(wrapper.scrollTop / rowHeight);
+                                        if ((returnValue - offset) < 1) {
+                                            return 0;
+                                        }
+                                        return returnValue - offset;
+                                    })(),
+                                    rowsBefore = firstVisibleRow > 0 ? firstVisibleRow - 1 : 0,
+                                    rowsAfter = (function () {
+                                        var returnValue = dataitem.length - firstVisibleRow - visibleRows + offset;
+                                        if (returnValue > dataitem.length) {
+                                            return dataitem.length - firstVisibleRow - visibleRows;
+                                        }
+                                        return returnValue;
+                                    })(),
+                                    height = 0,
+                                    createRowPlaceholder = function (rowHeight, numOfRows) {
+                                        var height = Math.floor(rowHeight * numOfRows),
+                                        tr,
+                                        td;
+                                        if (height > 0) {
+                                            tr = document.createElement('tr');
+                                            td = document.createElement('td');
+                                            td.setAttribute('colspan', columns);
+                                            tr.appendChild(td);
+                                            tr.style.height = height + 'px';
+                                            return tr;
+                                        }
+                                        return false;
+                                    };
+                                    
+                                if (table && table.parentNode === wrapper) {
+                                    wrapper.removeChild(table);
+                                    table = null;
+                                }
+                                table = document.createElement('table');
+                                tbody = document.createElement('tbody');
+                                    
+                                tr = createRowPlaceholder(rowHeight, rowsBefore);
+                                if (tr !== false) {
+                                    tbody.appendChild(tr);
+                                }
+                                for (var i = rowsBefore, loops = rowsBefore + visibleRows; i < loops; i++) {
+                                    if (dataitem[i] !== undefined) {
+                                        tbody.appendChild(buildTableRow(dataitem, i));
+                                    }
+                                }
+                                td = null;
+                                tr = null;
+                                tr = createRowPlaceholder(rowHeight, rowsAfter);
+                                if (tr !== false) {
+                                    tbody.appendChild(tr);
+                                }
+                            } else {
+
+                                if (table && table.parentNode === wrapper) {
+                                    wrapper.removeChild(table);
+                                    table = null;
+                                }
+                                table = document.createElement('table');
+                                tbody = document.createElement('tbody');
+                            
+                                table = document.createElement('table');
+                                tbody = document.createElement('tbody');
+                                for (i = 0, loops = dataitem.length; i < loops; i++) {
+                                    if (dataitem[i] !== undefined) {
+                                        tbody.appendChild(buildTableRow(dataitem, i));
+                                    }
+                                }
+                            }
+                            table.appendChild(tbody);
+                            wrapper.appendChild(table);                            
+                            if (typeof codeafter === 'function') {
+                                codeafter();
+                            }
+                        }
+                        if (dataitem.length > whatsTooBig) {
+                            var scrollFunction = (function () {
+                                var timeout = -1;
+                                return function (event) {
+                                    if (timeout !== -1) {
+                                        clearTimeout(timeout);
+                                    }
+                                    timeout = setTimeout(function () {
+                                        buildRows();
+                                    }, 100);
+                                }
+                            })();
+                            if (wrapper.addEventListener) {
+                                wrapper.addEventListener('scroll', scrollFunction);
+                            } else {
+                                wrapper.attachEvent('onscroll', scrollFunction);
+                            }
+                        }
+                        buildRows();
+                    },
+                    refresh: function (newDataitem) {
+                        dataitem = newDataitem;
+                        buildRows();
+                    }
+                };
+            };
+            var table = new DynamicTable('wrapper', dataitem, { offset: 10, whatsTooBig: 100 });
+            table.buildTable(1);
+            
+
+        </script>
+    </body>
+</html>

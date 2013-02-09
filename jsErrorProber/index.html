@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+    <head>
+        <script src='jsErrorProbrer.js'></script>
+    </head>
+    <body>
+        open your error console
+        <script>
+var err = new jsErrorProber();
+var tryThis = function (func) {
+    try {
+        func();
+    } catch (error) {
+        // console.log('**********\nEORROR IN:\n**********\n\n' + arguments.callee.caller.toString());
+        throw err.throwError('**********\nEORROR IN:\n**********\n\n' + arguments.callee.caller.toString());
+        debugger;
+    }
+};
+(function () {
+    // this is the origin of the error
+    tryThis(function () {
+        window.nonexistingmember.toString();
+    });
+    alert("this happens after the error");
+})();
+        </script>
+    </body>
+</html>

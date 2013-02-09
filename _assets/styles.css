@@ -1,0 +1,17 @@
+* { margin:0; padding:0; border:0; }
+body {
+    background:#eaeaea;
+    color:#666;
+    text-shadow:0 1px 0 white;
+    padding:10px 20px;
+    font:normal 100%/150% monospace;
+}
+li {
+    list-style:none;
+    padding:0 0 0 20px;
+}
+li[done] { background:url(accept.png) left center no-repeat; }
+li[work] { background:url(pencil.png) left center no-repeat; }
+li[idea] { background:url(lightbulb.png) left center no-repeat; }
+li[star] { background:url(star.png) left center no-repeat; }
+li[code] { background:url(code.png) left center no-repeat; }

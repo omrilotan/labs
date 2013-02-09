@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+        <meta http-equiv='X-UA-Compatible' content='IE=edge' />
+        <script src='Instructor.js'></script>
+        <style>
+#mouseInstructor {
+    border:1px solid #666;
+    box-shadow:1px 1px 2px rgba(0, 0, 0, .3);
+    background:#fff9ee;
+}
+div.sample {
+    height:300px;
+    background:url(data:image/gif;base64,R0lGODlhEAAQAIAAAHW5AACpzSH5BAAAAAAALAAAAAAQABAAAAIfhG+hq4jM3IFLJhoswNly/XkcBpIiVaInlLJr9FZWAQA7);
+}
+        </style>
+    </head>
+    <body>
+        <div class='sample' onmouseover='show()' onmouseout='hide()'></div>
+        <a href="Instructor.js">Instructor.js</a>
+        <script>
+var params = {
+    offsetTop: 5,
+    offsetLeft: 5,
+    endAlpha: 85,
+    boundingElement: document.getElementById('wrapper')
+};
+var html = 'this is the <span style=\'font-style:italic;\'>inner</span> html';
+var show = function () {
+    Instructor.show( html, params );
+};
+var hide = function () {
+    Instructor.hide();
+};
+        </script>
+    </body>
+</html>

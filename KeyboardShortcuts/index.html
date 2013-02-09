@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+    <head>
+        <script src='KeyboardShortcuts.js'></script>
+    </head>
+    <body>
+        <p>Example:</p>
+        <code style="white-space:pre-wrap;">
+KeyboardShortcuts.add("Ctrl+z", function () {
+    alert("undo feature");
+},{ 'type': 'keydown', 'propagate': false, 'disable_in_input': true, 'target': document });
+        
+        </code>
+        <p>press CTRL+Z</p>
+        <a href="KeyboardShortcuts.js">KeyboardShortcuts.js</a>
+        <script>
+KeyboardShortcuts.add("Ctrl+z",function() {
+    alert("undo feature");
+},{ 'type': 'keydown', 'propagate': false, 'disable_in_input': true, 'target': document });
+        </script>
+    </body>
+</html>
