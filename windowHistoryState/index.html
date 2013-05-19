@@ -43,6 +43,14 @@ var page2 = function () {
     }, "#!hello2");
 };
 
+window.addEventListener("hashcange", function () {
+    console.log("hashchange");
+    setTimeout(function () {
+        debugger;
+        window.title = window.location.hash;
+    }, 1000);
+});
+
         </script>
 	</body>
 </html>
