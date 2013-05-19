@@ -43,7 +43,7 @@
         // on rare occasions where the prototype was corrupted
         setAttribute = function (node, name, value) {
             if (typeof node.setAttribute === "function") {
-                node.setAttribute(value);
+                node.setAttribute(name, value);
             } else if (typeof Element.prototype.setAttribute === "function") {
                 
                 // try prototype functionality directly
@@ -233,7 +233,7 @@
                         return collection[name].cloneNode(true);
                     }
                     this.options.onerror("did not find template " + name);
-                    return false;
+                    return null;
                 }
             };
             return Manager;
@@ -404,7 +404,7 @@
             // create a new object by template name
             create = function (name, context) {
                 var temporary = typeof name === "string" ? context.templateManager.get(name) : name;
-                if (temporary === undefined) {
+                if (!temporary) {
                     context.options.onerror(name + " was not found");
                     return document.createDocumentFragment();    // keep things running
                 }

@@ -1,0 +1,114 @@
+.chat-interface * {
+    font:normal 13px/16px sans-serif;
+}
+.chat-interface {
+    position:absolute;
+    bottom:0;
+    left:5px;
+    width:100px;
+    border:3px solid black;
+    border-width:1px 1px 0 1px;
+    background:white;
+    padding:0 5px 5px;
+    border-radius:5px 5px 0 0;
+    box-shadow:3px 3px 5px #999;
+}
+.chat-interface .button {
+    display:block;
+    border:1px outset grey;
+    background:#eaeaea;
+    padding:2px 5px;
+    text-align:center;
+    margin:.5em 0;
+    cursor:pointer;
+}
+.chat-interface .button:hover {
+    border:1px inset grey;
+    background:#ccc;
+}
+.chat-interface select {
+    margin-top:.5em;
+    width:100%;
+}
+/*------------------*/
+.chat-widget.outerWrap {
+    position:absolute;
+    top:0;
+    right:0;
+}
+.chat-widget .chat, .chat-widget .chat * {
+    margin:0; padding:0; border:0; outline:0;
+    font:normal 13px/16px sans-serif;
+    cursor:default;
+    box-sizing: border-box;
+}
+.chat-widget .chat {
+    float:right;
+    width:200px;
+    border:solid 2px #666;
+    margin:15px 15px 0 0;
+    box-shadow:2px 2px 2px rgba(0, 0, 0, .5);
+    border-radius:5px;
+}
+.chat-widget .clickable {
+    text-align:center;
+    background:#666;
+    color:white;
+    text-shadow:0 1px 0 black;
+    cursor:pointer;
+}
+.chat-widget .chat h1 {
+    font-weight:bold;
+    padding:.1em 0;
+}
+.chat-widget .chat h1 button {
+    width:15px;
+    height:15px; line-height:15px;
+    background:transparent;
+    color:white;
+    font-weight:bold;
+}
+.chat-widget .chat .wrap,
+.chat-widget .chat .wrap .body {
+    transition:         all .3s;
+    -moz-transition:    all .3s;
+    -webkit-transition: all .3s;
+    -o-transition:      all .3s;
+
+    overflow:hidden;
+}
+.chat-widget .chat .wrap {
+    height:0;
+}
+.chat-widget .chat .wrap .body {
+    height:0;
+    overflow:auto;
+}
+.chat-widget .chat.open .wrap {
+    height:300px;
+}
+.chat-widget .chat.open .wrap .body {
+    height:280px;
+}
+.chat-widget .chat form {
+    border-top:1px solid #666;
+}
+.chat-widget .chat input {
+    width:80%;
+    background:#fefefe;
+    overflow:auto;
+    height:20px; line-height:20px;
+}
+.chat-widget .chat button {
+    width:30px;
+    float:right;
+    line-height:20px;
+}
+.chat-widget .chat .message {
+    border-bottom:1px solid #eee;
+    overflow:auto;
+    text-overflow:ellipsis;
+}
+.chat-widget .chat b {
+    font-weight:bold;
+}
