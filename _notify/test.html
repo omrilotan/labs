@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title></title>
+    </head>
+    <body>
+        look @ bottom and center
+        <script src="notify.js"></script>
+        <script>
+setTimeout(function () {
+    notify("this is a notification");
+}, 1000);
+setTimeout(function () {
+    notify("this is another notification");
+}, 3500);
+setTimeout(function () {
+    notify("this notification overlaps");
+}, 4500);
+        </script>
+    </body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title></title>
+	</head>
+	<body>
+        <div>I am the menu, I don't refresh<br />
+        <a onclick="page1()">1</a>
+        <a onclick="page2()">2</a>
+        </div>
+        <div id="wrap"></div>
+        <script>
+
+var build = function (data) {
+    document.getElementById("wrap").innerHTML = data.html;
+    document.title = data.title;
+};
+        
+var newPage = function (data, url) {
+    build(data);
+    window.history.pushState(data, "omri", url);
+};
+
+window.onpopstate = function (e) {
+    if (e.state) {
+        console.dir(e);
+        build(e.state);
+    }
+};
+
+var page1 = function () {
+    newPage({
+        html: "hello, world",
+        title: "hello, title"
+    }, "#!hello");
+};
+
+var page2 = function () {
+    newPage({
+        html: "hello, world 2",
+        title: "hello, title 2"
+    }, "#!hello2");
+};
+
+window.addEventListener("hashcange", function () {
+    console.log("hashchange");
+    setTimeout(function () {
+        debugger;
+        window.title = window.location.hash;
+    }, 1000);
+});
+
+        </script>
+	</body>
+</html>
