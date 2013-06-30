@@ -1,7 +1,7 @@
 var notify = (function (window, document, undefined) {
     var style = document.createElement("style"),
         styles = [
-            "\n.x-notification {",
+            "\n.x-notify-notification {",
             "\tposition:absolute;",
             "\tbottom:10px;",
             "\tleft:50%;",
@@ -20,18 +20,20 @@ var notify = (function (window, document, undefined) {
             "}\n"
         ].join("\n"),
         stylesNode = document.createTextNode(styles),
-        notification,
+        notification = null,
         timer,
         br,
         remove = function () {
-            document.body.removeChild(notification);
-            notification = null;
+            if (notification !== null) {
+                document.body.removeChild(notification);
+                notification = null;
+            }
             timer = 0;
         },
         exports = function notify (message) {
-            if (!notification) {
+            if (notification === null) {
                 notification = document.createElement("div"),
-                notification.className = "x-notification";
+                notification.className = "x-notify-notification";
                 notification.onclick = remove;
                 document.body.appendChild(notification);
             }
