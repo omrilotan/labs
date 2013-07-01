@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
-        <meta http-equiv='X-UA-Compatible' content='IE=edge' />
-        <script src='Instructor.js'></script>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <script src="Instructor.js"></script>
         <style>
 #mouseInstructor {
     border:1px solid #666;
@@ -17,7 +17,7 @@ div.sample {
         </style>
     </head>
     <body>
-        <div class='sample' onmouseover='show()' onmouseout='hide()'></div>
+        <div class="sample" id="sample"></div>
         <a href="Instructor.js">Instructor.js</a>
         <script>
 var params = {
@@ -26,13 +26,17 @@ var params = {
     endAlpha: 85,
     boundingElement: document.getElementById('wrapper')
 };
-var html = 'this is the <span style=\'font-style:italic;\'>inner</span> html';
+var html = "this is the <span style=\'font-style:italic;\'>inner</span> html";
+
+Instructor.bind(document.getElementById("sample"), html);
+/*
 var show = function () {
     Instructor.show( html, params );
 };
 var hide = function () {
     Instructor.hide();
 };
+*/
         </script>
     </body>
 </html>

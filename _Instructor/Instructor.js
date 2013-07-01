@@ -156,3 +156,41 @@ Instructor = {
         }, Instructor.I.timer);
     }
 };
+
+
+/* DOM add listener fork */
+var addListener = (function () {
+    var method = function (element) {
+            if (typeof element.addEventListener === "function") {
+                return function (element, event, func) {
+                    element.addEventListener(event, func);
+                };
+            } else if (typeof element.attachEvent === "function") {
+                return function (element, event, func) {
+                    element.attachEvent("on" + event, func);
+                };
+            } else {
+                return function (element, event, func) {
+                    element["on" + event] = func;
+                };
+            }
+        },
+        fork;
+    return function (element, event, func) {
+        if (typeof fork !== "function") {
+            fork = method(element);
+        }
+        fork(element, event, func);
+        return element;
+    };
+} ());
+
+/* Addition: one liner binding of the instructor */
+Instructor.bind = function (element, text) {
+    addListener(element, "mouseover", function () {
+        Instructor.show(text);
+    });
+    addListener(element, "mouseout", function () {
+        Instructor.hide();
+    });
+};
