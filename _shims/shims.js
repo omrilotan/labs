@@ -6,6 +6,7 @@
         }
     };
     
+    // String.prototype.trim
     shim("String", "trim", function trim () {
         return this.replace(/^\s+|\s+$/g, "");
     });
@@ -22,6 +23,7 @@
         return -1;
     });
     
+    // Array.prototype.forEach
     shim("Array", "forEach", function forEach (fn, scope) {
         var i = 0,
             len = this.length;
@@ -30,6 +32,7 @@
         }
     });
 
+    // Array.prototype.reduce
     shim("Array", "reduce", function(callback, context) {
         if (this === null || this === undefined) {
             throw new TypeError("Array.prototype.reduce called on null or undefined");
@@ -61,12 +64,14 @@
         return value;
     });
 
+    // Object.prototype.hasOwnProperty
     shim("Object", "hasOwnProperty", function hasOwnProperty (property) {
         var _prototype = this.__proto__ || this.constructor.prototype;
         return (property in this) && (!(property in _prototype) ||
                 _prototype[property] !== this[property]);
     });
 
+    // Function.prototype.bind
     shim("Function", "bind", function (that) {
         if (typeof this !== "function") {
             // closest thing possible to the ECMAScript 5 internal IsCallable function
