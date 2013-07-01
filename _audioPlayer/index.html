@@ -1,17 +1,30 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <title></title>
-        <link rel="stylesheet" href="styles.css" />
-    </head>
     <body>
         <form id="audio">
             <input type="submit" value="play" />
         </form>
-        <!--
-            <embed hidden="true" autostart="true" loop="false" src="note.mp3" />
-        -->
         <script src="script.js"></script>
+        <script>
+(function (window, document, undefined) {
+    var form = document.getElementsByTagName("form")[0];
+
+    soundPlayer("ring").
+            src("ring.mp3", "audio/mp3").
+            src("ring.wav", "audio/wav");
+
+    if (typeof form.addEventListener === "function") {
+        form.addEventListener("submit", function (event) {
+            event.preventDefault();
+            soundPlayer("ring").play();
+        });
+    } else {
+        form.attachEvent("onsubmit", function (event) {
+            event.returnValue = false;
+            soundPlayer("ring").play();
+        });
+    }
+}(window, document));
+        </script>
     </body>
 </html>
