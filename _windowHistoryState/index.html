@@ -3,54 +3,57 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<title></title>
+        <style>
+a {
+    display:inline-block;
+    padding:1em;
+    border:solid 1px blue;
+}
+#wrap {
+    white-space:pre;
+}
+        </style>
 	</head>
 	<body>
         <div>I am the menu, I don't refresh<br />
-        <a onclick="page1()">1</a>
-        <a onclick="page2()">2</a>
+        <a href="page1" data-page="1">1</a>
+        &nbsp;
+        <a href="page2" data-page="2">2</a>
+        &nbsp;
+        <a href="page3" data-page="3">3</a>
+        &nbsp;
+        <a href="page4" data-page="4">4</a>
+        &nbsp;
+        <a href="back">Back</a>
         </div>
         <div id="wrap"></div>
+        <script src="script.js"></script>
         <script>
-
-var build = function (data) {
-    document.getElementById("wrap").innerHTML = data.html;
-    document.title = data.title;
-};
-        
-var newPage = function (data, url) {
-    build(data);
-    window.history.pushState(data, "omri", url);
-};
-
-window.onpopstate = function (e) {
-    if (e.state) {
-        console.dir(e);
-        build(e.state);
+(function () {
+    var a = document.getElementsByTagName("a"),
+        i = a.length;
+    while (i--) {
+        a[i].addEventListener("click", function (event) {
+            event.preventDefault();
+            if (event.target.getAttribute("href") === "back") {
+                pageManager.back();
+                return;
+            }
+            var extraData = JSON.parse(event.target.getAttribute("data-page"));
+            pageManager.go(event.target.getAttribute("href"), { extraData: extraData });
+            return;
+        });
     }
+}());
+
+var print = function (text) {
+    document.getElementById("wrap").innerHTML += text + "\n";
 };
 
-var page1 = function () {
-    newPage({
-        html: "hello, world",
-        title: "hello, title"
-    }, "#!hello");
-};
-
-var page2 = function () {
-    newPage({
-        html: "hello, world 2",
-        title: "hello, title 2"
-    }, "#!hello2");
-};
-
-window.addEventListener("hashcange", function () {
-    console.log("hashchange");
-    setTimeout(function () {
-        debugger;
-        window.title = window.location.hash;
-    }, 1000);
+pageManager.listen(function (event) {
+    console.dir(event);
+    print("state: " + JSON.stringify(event.state));
 });
-
         </script>
 	</body>
 </html>

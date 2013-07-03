@@ -1,10 +1,14 @@
-var page = (function (window) {
-    var collection = {},
+var pageManager = (function (window) {
+    var exports = {},
+        callbacks = [],
         pop = function (event) {
-            alert("location: " + document.location + ", state: " + JSON.stringify(event.state));
+            var i = 0,
+                len = callbacks.length;
+            for (; i < len; i++) {
+                callbacks[i](event);
+            }
         };
-
-    if (typeof window.addEventListener === "function" () {
+    if (typeof window.addEventListener === "function") {
         window.addEventListener("popstate", pop);
     } else if (typeof window.attachEvent === "function") {
         window.attachEvent("onpopstate", pop);
@@ -12,33 +16,27 @@ var page = (function (window) {
         window.onpopstate = pop;
     }
 
-    var Page = function (name) {
-        this.name = name;
-        this.data = null;
-        return this;
-    };
-    
-    // navigate to this page
-    Page.prototype.go = function () {
-        window.history.pushState(this.data, this.name, "#!/" + this.name);
+    exports.go = function (name, data) {
+        data = typeof data === "object" ? data : null;
+        window.history.pushState(data, name, "#!/" + name);
+        pop({
+            state: data,
+            timeStamp: (new Date()).getTime(),
+            type: "popstate"
+        });
         return this;
     };
 
-    // getter / setter
-    Page.prototype.data = function (data) {
-        if (typeof data === "object") {
-            this.data = data;
-            return this;
-        } else {
-            return this.data;
-        }
+    exports.listen = function (fn) {
+        callbacks.push(fn);
+        return this;
     };
 
-    return function (name) {
-        if (!collection[name]) {
-            collection[name] = new Page(name);
-        }
-        return collection[name];
+    exports.back = function () {
+        window.history.back();
+        return this;
     };
+
+    return exports;
 
 }(window));
