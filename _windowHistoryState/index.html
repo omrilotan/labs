@@ -25,6 +25,12 @@ a {
         <a href="page4" data-page="4">4</a>
         &nbsp;
         <a href="back">Back</a>
+        &nbsp;
+        <a href="forward">Forward</a>
+        &nbsp;
+        <a href="refresh">Refresh</a>
+        &nbsp;
+        <a onclick="pageManager.add({ additional: 'hello' })">Add</a>
         </div>
         <div id="wrap"></div>
         <script src="script.js"></script>
@@ -35,12 +41,26 @@ a {
     while (i--) {
         a[i].addEventListener("click", function (event) {
             event.preventDefault();
+            if (!event.target.getAttribute("href")) {
+                return;
+            }
             if (event.target.getAttribute("href") === "back") {
                 pageManager.back();
                 return;
             }
+            if (event.target.getAttribute("href") === "forward") {
+                pageManager.forward();
+                return;
+            }
+            if (event.target.getAttribute("href") === "refresh") {
+                pageManager.state();
+                return;
+            }
             var extraData = JSON.parse(event.target.getAttribute("data-page"));
-            pageManager.go(event.target.getAttribute("href"), { extraData: extraData });
+            pageManager.push({
+                name: event.target.getAttribute("href"),
+                extraData: extraData
+            });
             return;
         });
     }
@@ -51,7 +71,6 @@ var print = function (text) {
 };
 
 pageManager.listen(function (event) {
-    console.dir(event);
     print("state: " + JSON.stringify(event.state));
 });
         </script>
