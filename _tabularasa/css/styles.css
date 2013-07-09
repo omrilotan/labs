@@ -16,7 +16,7 @@
     
     font-smoothing: antialiased;
     -moz-font-smoothing: antialiased;
-    -webkit-font-smoothing: antialiased;
+    -webkit-font-smoothing: subpixel-antialiased;
     -webkit-text-size-adjust: 100%;
 
     font-size: 100%;
@@ -62,9 +62,10 @@ img { vertical-align: middle }
 }
 .not_selectable {
     /* use on lower elements only. most browsers do not support exclusion on this */
+    user-select: none;
     -webkit-user-select: none;
+    -ms-user-select: none;
     -khtml-user-select: none;
     -moz-user-select: -moz-none;
     -o-user-select: none;
-    user-select: none;
 }
