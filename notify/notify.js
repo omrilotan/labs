@@ -28,6 +28,7 @@ var notify = (function (window, document, undefined) {
                 document.body.removeChild(notification);
                 notification = null;
             }
+            clearTimeout(timer);
             timer = 0;
         },
         exports = function notify (message) {

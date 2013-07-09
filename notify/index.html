@@ -6,17 +6,16 @@
     </head>
     <body>
         look @ bottom and center
+        <form>
+            <input type="text" placeholder="write a message in me!" value="default message" />
+            <button>Notify</button>
+        </form>
         <script src="notify.js"></script>
         <script>
-setTimeout(function () {
-    notify("this is a notification");
-}, 1000);
-setTimeout(function () {
-    notify("this is another notification");
-}, 3500);
-setTimeout(function () {
-    notify("this notification overlaps");
-}, 4500);
+document.getElementsByTagName("form")[0].onsubmit = function () {
+    notify(this[0].value);
+    return false;
+};
         </script>
     </body>
 </html>
