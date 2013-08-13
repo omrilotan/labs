@@ -48,8 +48,10 @@ var Translator = function (langFile, options) {
         if (!ready) {
             throw new Error("translator.js error: translator not ready");
         }
+        
         // check the translation key format (has 3 * _)
-        return string.match(/(_)/g).length === 3;
+        var rx = string.match(/(_)/g);
+        return rx !== null && rx.length === 3;
     };
     that.text = function (key) {
         if (!ready) {
