@@ -49,15 +49,7 @@ var Translator = function (langFile, options) {
             throw new Error("translator.js error: translator not ready");
         }
         // check the translation key format (has 3 * _)
-        var isKey = -1;
-        isKey = string.indexOf("_", isKey);
-        if (isKey !== -1) {
-            isKey = string.indexOf("_", isKey + 1);
-        }
-        if (isKey !== -1) {
-            isKey = string.indexOf("_", isKey + 1);
-        }
-        return isKey !== -1;
+        return string.match(/(_)/g).length === 3;
     };
     that.text = function (key) {
         if (!ready) {
