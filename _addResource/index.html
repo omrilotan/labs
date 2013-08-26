@@ -1,0 +1,17 @@
+<!doctype html>
+<html>
+    <body>
+        <div>
+            <span></span>
+        </div>
+        <script src="addResource.js"></script>
+        <script>
+addResource("styles-rules", {
+    "div": "height: 30px; background: green;",
+    "div span:before": "content: \"hi\""
+}, function () {
+    console.log("done");
+});
+        </script>
+    </body>
+</html>
