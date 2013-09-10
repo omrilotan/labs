@@ -15,6 +15,7 @@
 var addResource = (function (document) {
     "use strict";
     var head,
+        collection = [],
         setArrtibute,
         forkSetArrtibute = function (element) {
             if (typeof element.setAttribute === "function") {
@@ -47,19 +48,28 @@ var addResource = (function (document) {
             }
         },
         CSS = {
+            create: function (url) {
+                var element = document.createElement("style"),
+                    attributes = {
+                        "type": "text/css"
+                    };
+                if (typeof url === "string") {
+                    attributes["rel"] = "stylesheet";
+                    attributes["href"] = url;
+                }
+                setAttributes(element, attributes);
+                return element;
+            },
             element: function (content) {
-                var element = document.createElement("style");
-                setAttributes(element, {
-                    "type": "text/css"
-                });
+                var element = CSS.create();
                 if (typeof content === "string") {
                     if (typeof element.styleSheet === "object") {
                         element.styleSheet.cssText = content;
                     } else {
                         element.appendChild(document.createTextNode(content));
+                    }
                 }
-                }
-                return element;
+                head.appendChild(element);
             },
             rules: function (content) {
                 var sheet,
@@ -68,7 +78,7 @@ var addResource = (function (document) {
                         document.styleSheets.length > 0) {
                     sheet = document.styleSheets[0];
                 } else {
-                    sheet = CSS.element();
+                    sheet = CSS.create();
                     head.appendChild(sheet);
                 }
                 for (name in content) {
@@ -78,14 +88,12 @@ var addResource = (function (document) {
                 }
             },
             reference: function (content, callback) {
-                var element = document.createElement("link");
-                setAttributes(element, {
-                    "rel": "stylesheet",
-                    "type": "text/css",
-                    "href": content
-                });
-                element.onload = callback;
-                return element;
+                if (collection.indexOf(content) === -1) {
+                    var element = CSS.create(content);
+                    element.onload = callback;
+                    head.appendChild(element);
+                    collection.push(content);
+                }
             },
             references: function (head, array, callback) {
                 var loaded = 0;
@@ -96,30 +104,37 @@ var addResource = (function (document) {
                             callback();
                         }
                     });
-                    head.appendChild(script);
                 });
             }
         },
         JS = {
+            create: function (url) {
+                var element = document.createElement("script"),
+                    attributes = {
+                        "type": "text/javascript"
+                    };
+                if (typeof url === "string") {
+                    attributes["src"] = url;
+                }
+                setAttributes(element, attributes);
+                return element;
+            },
             element: function (content) {
-                var element = document.createElement("script");
-                setAttributes(element, {
-                    "type": "text/javascript"
-                });
+                var element = JS.create();
                 try {
                     element.appendChild(document.createTextNode(content));
                 } catch (e) {
                     element.text = content;
                 }
-                return element;
+                head.appendChild(element);
             },
             reference: function (content, callback) {
-                var element = document.createElement("script");
-                setAttributes(element, {
-                    "type": "text/javascript",
-                    "src": content
-                });
-                element.onload = callback;
+                if (collection.indexOf(content) === -1) {
+                    var element = JS.create(content);
+                    element.onload = callback;
+                    head.appendChild(element);
+                    collection.push(content);
+                }
             },
             references: function (head, array, callback) {
                 var loaded = 0;
@@ -130,7 +145,6 @@ var addResource = (function (document) {
                             callback();
                         }
                     });
-                    head.appendChild(script);
                 });
             }
         };
@@ -139,19 +153,19 @@ var addResource = (function (document) {
         head = head || document.getElementsByTagName("head")[0];
         switch (type) {
             case "styles-text":    // append new styles element
-                head.appendChild(CSS.element(content));
+                CSS.element(content);
                 break;
             case "script-text":    // append new script element
-                head.appendChild(JS.element(content));
+                JS.element(content);
                 break;
             case "styles-rules":    // add new style rule
                 CSS.rules(content);
                 break;
             case "styles-file":    // append new styles reference
-                head.appendChild(CSS.reference(content, callback));
+                CSS.reference(content, callback);
                 break;
             case "script-file":    // append new script reference
-                head.appendChild(JS.reference(content, callback));
+                JS.reference(content, callback);
                 break;
             case "styles-files":    // append a group of new styles references
                 CSS.references(head, content, callback);
