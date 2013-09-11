@@ -5,6 +5,8 @@
 // addResource("script-text", @String script);
 // addResource("styles-file", @String URL, @Function callback);
 // addResource("script-file", @String URL, @function callback);
+// addResource("styles-files", @String URL, @Function callback);
+// addResource("script-files", @String URL, @function callback);
 // addResource("styles-rules", @Object styles);
 //
 // Styles rules object example: {
@@ -98,7 +100,7 @@ var addResource = (function (document) {
             references: function (head, array, callback) {
                 var loaded = 0;
                 array.forEach(function (item) {
-                    var script = CSS_Reference(item, function () {
+                    CSS.reference(item, function () {
                         loaded++;
                         if (loaded === array.length) {
                             callback();
@@ -139,7 +141,7 @@ var addResource = (function (document) {
             references: function (head, array, callback) {
                 var loaded = 0;
                 array.forEach(function (item) {
-                    var script = JS_Reference(item, function () {
+                    JS.reference(item, function () {
                         loaded++;
                         if (loaded === array.length) {
                             callback();
