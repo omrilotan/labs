@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <video autoplay width="480" height="360"></video>
+        <input type="button" value="stop" />
+        <script>
+            window.URL = window.URL || window.webkitURL;
+            navigator.getUserMedia =
+                    navigator.getUserMedia ||
+                    navigator.webkitGetUserMedia ||
+                    navigator.mozGetUserMedia ||
+                    navigator.msGetUserMedia;
+            
+            var video = document.querySelector("video");
+            var cameraStream = "";
+            
+            if (navigator.getUserMedia) {
+                navigator.getUserMedia({
+                        audio: true,
+                        video: true
+                    },
+                    function (stream) {
+                        cameraStream = stream;
+                        video.src = window.URL.createObjectURL(stream);
+                    },
+                    function () {
+                        document.writeln("problem accessing the hardware")
+                    }
+                );
+            } else {
+                document.writeln("video capture is not supported");
+            }
+            
+            document.querySelector('input[type="button"]').addEventListener(
+                    "click",
+                    function () {
+                        video.src = "";
+                        cameraStream.stop();
+                    });
+        </script>
+    </body>
+</html>
