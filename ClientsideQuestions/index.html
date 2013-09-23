@@ -112,13 +112,14 @@ a {
 <ul>
     <li>How would you implement private variables?</li>
     <li>
-        What will the console print (Two prints)?
+        What will the console print (Three prints)?
         <pre contenteditable="true">var x = 4;
 (function () {
     <strong>console.log(x);</strong>
     var x = 5;
     <strong>console.log(x);</strong>
-}());</pre>
+}());
+console.log(x);</pre>
         <i>Explain: variable hoisting</i>
     </li>
     <li>
@@ -202,7 +203,7 @@ var fillList2 = function (list) {
     </li>
 </ul>
             </section>
-            <a href="https://github.com/watermelonbunny/yomyo.me">Fork this!</a>
+            <a href="https://github.com/watermelonbunny/labs">Fork this!</a>
         </div>
     </body>
 </html>
