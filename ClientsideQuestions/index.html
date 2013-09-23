@@ -1,0 +1,208 @@
+<!doctype html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" /> 
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
+        <!-- don't cache me -->
+        <meta http-equiv="Cache-Control" content="no-cache"/>
+        <!-- don't index me (please) -->
+        <meta name="robots" content="noindex" />
+        <meta name="googlebot" content="noindex" />
+        <title>Client side Questions</title>
+        <style>
+html {
+    background:rgb(212, 208, 200);
+    color:#666;
+    text-shadow:0 1px 0 #f3f3f3;
+}
+body {
+    font:normal 13px/18px Georgia, serif;
+}
+header {
+    position:fixed;
+    left:0; top:0; width:100%;
+    background:rgba(212, 208, 200, .9);
+    font:normal 2em impact, sans-serif;
+    letter-spacing:.05em;
+    color:#f60;
+    text-align:center;
+    box-shadow:0 15px 10px -15px black;
+}
+div {
+    max-width:960px;
+    margin:4em auto 0;
+    padding:0 .5em;
+}
+section {
+    display:block;
+    margin-bottom:4em;
+}
+h1 {
+    font-size:1.5em;
+    color:rgb(54, 95, 145);
+}
+h2 {
+    font-size:1.2em;
+    font-weight:normal;
+    color:rgb(79, 129, 189);
+}
+ul {
+    padding:0;
+    list-style:none;
+    margin:0 0 1em;
+    padding:0 0 1em;
+    border-bottom:dashed 1px rgba(0, 0, 0, .15);
+    box-shadow:0 2px 1px -1px rgba(255, 255, 255, .4);
+}
+li {
+    margin:1em 0 0;
+    padding:1em 0 0;
+    border-top:dashed 1px rgba(0, 0, 0, .15);
+    box-shadow:inset 0 2px 1px -1px rgba(255, 255, 255, .4);
+}
+i {
+    display:block;
+    margin-top:-1em;
+}
+pre,
+code {
+    font-family:monospace;
+    background:rgb(242, 239, 234);
+    border:solid 1px #aaa;
+    color:#334;
+    border-radius:3px;
+    text-shadow:none;
+}
+code {
+    display:inline-block;
+    padding:0 .2em;
+}
+pre {
+    display:block;
+    padding:.5em;
+}
+pre strong,
+code strong {
+    color:black;
+}
+ins {
+    text-decoration:none;
+    font-style:italic;
+    color:rgb(0, 175, 0);
+}
+a {
+    display:block;
+    color:#f60;
+    text-align:center;
+}
+        </style>
+    </head>
+    <body>
+        <header>Questions: Client side</header>
+        <div>
+            <section>
+<h1>Javascript</h1>
+<h2>Prototype chain and inheritance</h2>
+<ul>
+    <li>How would you implement inheritance in Javascript?</li>
+    <li>What is the <code contenteditable="true">prototype</code> object and what can it be used for?</li>
+</ul>
+<h2>Scope chain, variable declarations and passing variables</h2>
+<ul>
+    <li>How would you implement private variables?</li>
+    <li>
+        What will the console print (Two prints)?
+        <pre contenteditable="true">var x = 4;
+(function () {
+    <strong>console.log(x);</strong>
+    var x = 5;
+    <strong>console.log(x);</strong>
+}());</pre>
+        <i>Explain: variable hoisting</i>
+    </li>
+    <li>
+        What will the console print in each of the following examples?
+        <pre contenteditable="true">var myObj = {
+    name: "me"
+};
+function myFunc (obj) {
+    obj.name = "not me";
+}
+myFunc(myObj);
+console.log(myObj.name);</pre>
+        <pre contenteditable="true">var myObj = {
+    name: "me"
+};
+function myFunc (obj) {
+    obj = null;
+}
+myFunc(myObj);
+console.log(myObj.name);</pre>
+        <i>Explain: the difference between passing variables "by value" and "by reference", and what it means later in the program.</i>
+    </li>
+    <li>What does "<code contenteditable="true">this</code>" point to?</li>
+</ul>
+<h2>Asynchronous (and event driven) flows</h2>
+<ul>
+    <li>Explain what async code means. How will the scope chain and closures affect execution?</li>
+    <li>
+        What will the console print for each example?
+        <pre contenteditable="true">var array = [1, 2, 3, 4, 5],
+    i = 0,
+    len = array.length;
+for (; i &lt; len; i++) {
+    setTimeout(function () {
+        console.log(array[i]);
+    }, 0);
+}</pre>
+        <pre contenteditable="true">var array = [1, 2, 3, 4, 5];
+array.forEach(function (item, index, array) {
+    setTimeout(function () {
+        console.log(item);
+    }, 0);
+});</pre>
+        <i>Explain the difference between the two execution contexts</i>
+    </li>
+    <li>Explain what timers (<code contenteditable="true">setTimeout, setInterval</code> etc.) do.</li>
+</ul>
+<h2>Code management</h2>
+<ul>
+    <li>Describe constructing large code bases, modular code, maintaining a separation of concerns.</li>
+</ul>
+            </section>
+            <section>
+<h1>DOM & Browsers</h1>
+<ul>
+    <li>What's the difference between browser detection and feature detection?</li>
+    <li>How would you call a cross-origin server side service (1 Method is enough)</li>
+    <li>Explain how "<code contenteditable="true">fillList2</code>" is more efficient than "<code contenteditable="true">fillList</code>".
+        <pre contenteditable="true">var createListItem = function (data, index) {
+    var li = document.createElement("li"),
+        node = document.createTextNode(index + ". " + data.text);
+    li.appendChild(node);
+    return li;
+};
+
+var fillList = function (list) {
+    var ul = document.getElementById("myUl");
+    list.forEach(function (item, index) {
+        ul.appendChild(createListItem(item, index));
+    });
+};
+
+var fillList2 = function (list) {
+    var ul = document.getElementById("myUl"),
+        <strong>fragment = document.createDocumentFragment();</strong>
+    list.forEach(function (item, index) {
+        <strong>fragment</strong>.appendChild(createListItem(item, index));
+    });
+    ul.appendChild(<strong>fragment</strong>);
+};</pre>
+    </li>
+</ul>
+            </section>
+            <a href="https://github.com/watermelonbunny/yomyo.me">Fork this!</a>
+        </div>
+    </body>
+</html>
