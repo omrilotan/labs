@@ -97,7 +97,7 @@ var addResource = (function (document) {
                     collection.push(content);
                 }
             },
-            references: function (head, array, callback) {
+            references: function (array, callback) {
                 var loaded = 0;
                 array.forEach(function (item) {
                     CSS.reference(item, function () {
@@ -138,7 +138,7 @@ var addResource = (function (document) {
                     collection.push(content);
                 }
             },
-            references: function (head, array, callback) {
+            references: function (array, callback) {
                 var loaded = 0;
                 array.forEach(function (item) {
                     JS.reference(item, function () {
@@ -170,10 +170,10 @@ var addResource = (function (document) {
                 JS.reference(content, callback);
                 break;
             case "styles-files":    // append a group of new styles references
-                CSS.references(head, content, callback);
+                CSS.references(content, callback);
                 break;
             case "script-files":    // append a group of new script references
-                JS.references(head, content, callback);
+                JS.references(content, callback);
                 break;
             default:
                 throw new Error("\"addResource\" requires an valid type assigned." + (typeof type === "string" ? " \"" + type + "\" is not supported" : ""));
