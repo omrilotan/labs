@@ -1,0 +1,44 @@
+.bookmark-let-widget,
+.bookmark-let-widget * {
+    text-align:left;
+    font:normal 13px sans-serif;
+    background:rgba(255, 255, 255, .5);
+}
+.bookmark-let-widget {
+    position: absolute;
+    min-height:100px;
+    max-width:400px;
+    min-width:100px;
+    left:5px;
+    top:5px;
+    border:2px solid #fff;
+    border-radius:2px;
+    box-shadow:0 0 0 1px #666;
+}
+.bookmark-let-widget * {
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+.bookmark-let-widget .title,
+.bookmark-let-widget .close {
+    font-weight:bold;
+    height:1.5em; line-height:1.5em;
+    color:#fff;
+    background:#666;
+    box-shadow:inset 0 .75em 0 #888;
+    text-shadow:0 1px 0 #000;
+}
+.bookmark-let-widget .title {
+    padding:0 5px;
+}
+.bookmark-let-widget a {
+    display:block;
+    padding:2px 5px;
+}
+.bookmark-let-widget .close {
+    width:1.5em; text-align:center;
+    display:block;
+    float:right;
+    cursor:pointer;
+}

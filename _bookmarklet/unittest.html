@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<title></title>
         <style>
 body {
     text-align:center;
+    background:#f90;
 }
 a.bookmarklet {
     display:inline-block;
@@ -18,6 +19,10 @@ a.bookmarklet {
         </style>
 	</head>
 	<body>
-        <a class="bookmarklet" href="javascript:(function(){var e=document.createElement('script'),t='widget.js',n=document.getElementsByTagName('script')[0]||document.body.firstChild;e.async=true;e.src=t;n.parentNode.insertBefore(e,n)})();">bookmark-let</a>
+        <a class="bookmarklet" href="javascript:(function(){var e=document.createElement('script'),t='include.js',n=document.getElementsByTagName('script')[0]||document.body.firstChild;e.async=true;e.src=t;n.parentNode.insertBefore(e,n)})();">bookmark-let</a>
+
+        <script>
+(function(){var e=document.createElement('script'),t='include.js',n=document.getElementsByTagName('script')[0]||document.body.firstChild;e.async=true;e.src=t;n.parentNode.insertBefore(e,n)})();
+        </script>
 	</body>
 </html>

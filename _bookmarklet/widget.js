@@ -1,55 +1,3 @@
-var bookmarks_json = [
-    {
-        "title": "Services",
-        "id": 1,
-        "children": [
-            {
-                "title": "Instapaper",
-                "id": 2,
-                "parent": 1,
-                "uri": "http://www.instapaper.com/u"
-            },
-            {
-                "index": 1,
-                "title": "Github",
-                "id": 3,
-                "parent": 1,
-                "uri": "https://github.com/watermelonbunny"
-            }
-        ]
-    },
-    {
-        "title": "Magazines",
-        "id": 4,
-        "children": [
-            {
-                "title": "Ars Technica",
-                "id": 5,
-                "parent": 4,
-                "uri": "http://arstechnica.com/"
-            },
-            {
-                "index": 1,
-                "title": ".net Magazine | The world's best-selling magazine for web designers and developers since 1994",
-                "id": 6,
-                "parent": 4,
-                "uri": "http://netmagazine.com/"
-            }
-        ]
-    },
-    {
-        "title": "Books",
-        "id": 7,
-        "children": [
-            {
-                "title" : "Physics Database",
-                "id": 8,
-                "parent" :7,
-                "uri": "http://physicsdatabase.com/book-list-by-title/"
-            }
-        ]
-    }
-];
 (function (window) {
     if (document.getElementById("bookmark-let-widget") !== null) {
         return;
@@ -59,7 +7,7 @@ var bookmarks_json = [
         style = document.createElement("style"),
         widget = document.createElement("div"),
         x = document.createElement("div"),
-        css = "",
+        loading = document.createElement("div"),
         bookmarksList = [],
         i,
         len,
@@ -84,31 +32,11 @@ var bookmarks_json = [
                 }
             }
         };
-    // reset
-    css += ".bookmark-let-widget, .bookmark-let-widget * { text-align:left; font:normal 13px sans-serif; }";
-    // box
-    css += ".bookmark-let-widget { position: absolute; min-height:100px; max-width:400px; min-width:100px; left:5px; top:5px; background:white; border:1px solid #aa6600; box-shadow:2px 2px 5px #aa6600; }";
-    css += ".bookmark-let-widget * { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }";
-    // title
-    css += ".bookmark-let-widget .title { padding:2px 5px; color:#aa6600; font-weight:bold; }";
-    // link
-    css += ".bookmark-let-widget a { display:block; padding:2px 5px; }";
-    // close button
-    css += ".bookmark-let-widget .close { display:block; float:right; background:#aa6600; color:white; font-weight:bold; padding:1px 7px; cursor:pointer; }";
-
-    // Start style
-    style.type = "text/css";
-    if (style.styleSheet){
-        style.styleSheet.cssText = css;
-    } else {
-        style.appendChild(document.createTextNode(css));
-    }
-
-    head.appendChild(style);
 
     widget.className = "bookmark-let-widget";
     widget.id = "bookmark-let-widget";
-    x.className = "close"; 
+    loading.innerHTML = "loading";
+    x.className = "close";
     x.innerHTML = "X";
     x.title = "close";
     x.onclick = function () {
@@ -116,15 +44,23 @@ var bookmarks_json = [
     };
         
     widget.appendChild(x);
+    widget.appendChild(loading);
 
-    for (i = 0, len = bookmarks_json.length; i < len; i++) {
-        addListItem(bookmarks_json[i]);
-    }
+    setTimeout(function () {
+        widget.removeChild(loading);
+        
+        addResource("script-file", "bookmarks.js", function () {
+            for (i = 0, len = bookmarks.length; i < len; i++) {
+                addListItem(bookmarks[i]);
+            }
+            
+            for (i = 0, len = bookmarksList.length; i < len; i++) {
+                widget.appendChild(bookmarksList[i]);
+            }
+
+        });
+    }, 200);
     
-    for (i = 0, len = bookmarksList.length; i < len; i++) {
-        widget.appendChild(bookmarksList[i]);
-    }
-
     body.appendChild(widget);
 
 }(window, undefined));
