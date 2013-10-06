@@ -51,7 +51,7 @@ var addResource = (function (document) {
         },
         CSS = {
             create: function (url) {
-                var element = document.createElement("style"),
+                var element = document.createElement("link"),
                     attributes = {
                         "type": "text/css"
                     };
