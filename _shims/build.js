@@ -24,6 +24,8 @@ var entries = [],
         fs.readFile(key + "/" + nkey + ".js",
                 "utf8",
                 function (error, result) {
+                    // add one indentation level
+                    result = "\t" + result.replace(/\n/gmi, "\n\t");
                     entries.push("if (typeof " + key + ".prototype." + nkey + " === \"function\"){\r\n" + result + "\r\n}");
                     if (entries.length === sum) {
                         write(entries.join("\r\n\r\n"));
@@ -48,21 +50,3 @@ var init = function () {
             });
 };
 init();
-/*
-fs.readFile(filename,
-        "utf8", function (error, result) {
-    //gather(error, result, index)
-});
-*/
-/*
-    fs.writeFile(destination, code, function (error) {
-        if (error) {
-            report(error);
-        } else {
-            report(destination + " file was saved");
-        }
-    });
-*/
-
-
-//operations.writeToFile("test/" + details.name + ".js", string);
