@@ -38,11 +38,11 @@ navigator.getUserMedia = navigator.getUserMedia ||
         image.onload = function() {
             context.drawImage(image, 0, 0);
         };
-        // overlay.onload = function () {
-        //     setTimeout(function () {
-        //         context.drawImage(overlay, 0, 0);
-        //     }, 1000);
-        // };
+        overlay.onload = function () {
+            setTimeout(function () {
+                context.drawImage(overlay, 0, 0);
+            }, 1000);
+        };
         context.clearRect(0, 0, canvas.width, canvas.height);
         image.src = data;
 

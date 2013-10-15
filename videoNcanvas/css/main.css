@@ -13,8 +13,6 @@ body {
 img {
     position:absolute;
     top:0; left:0;
-    transform: scaleX(-1);
-    -webkit-transform: scaleX(-1);
 }
 video {
     transform: scaleX(-1);
