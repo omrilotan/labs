@@ -6,6 +6,7 @@ navigator.getUserMedia = navigator.getUserMedia ||
 (function (document) {
     var canvas = document.getElementById("droparea");
     var context = canvas.getContext("2d");
+    var img = document.getElementById("guy");
     var video = document.getElementById("videoarea");
     var button = document.getElementById("save");
     var localMediaStream = null;
@@ -29,19 +30,19 @@ navigator.getUserMedia = navigator.getUserMedia ||
         });
     };
     var draw = function (data) {
-        console.log(data);
         video.style.display = "none";
+        img.style.display = "none";
         canvas.style.display = "block";
         var image = new Image();
-        var overlay = new Image();
-        overlay.src = "assets/guyfox.png";
         image.onload = function() {
+            var overlay = new Image();
             context.drawImage(image, 0, 0);
-        };
-        overlay.onload = function () {
-            setTimeout(function () {
+            overlay.onload = function () {
                 context.drawImage(overlay, 0, 0);
-            }, 1000);
+                context.translate(640, 0);
+                context.scale(-1, 1);
+            }
+            overlay.src = "assets/guyfox.png";
         };
         context.clearRect(0, 0, canvas.width, canvas.height);
         image.src = data;
