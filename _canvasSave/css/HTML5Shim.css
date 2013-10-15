@@ -1,0 +1,6 @@
+header, main, footer,
+menu, nav,
+section, article,
+aside, details, figcaption, figure, hgroup {
+    display: block;
+}

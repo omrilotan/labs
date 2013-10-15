@@ -1,0 +1,21 @@
+@import "reset.css";
+
+body {
+    background:white;
+}
+.wrap {
+    display:block;
+    width:200px;
+    height:200px;
+    margin:3em auto;
+}
+.droparea {
+    display:block;
+    width:200px;
+    height:200px;
+    border:1px dashed #aaa;
+    background:white;
+}
+button {
+    padding:2px 5px;
+}
