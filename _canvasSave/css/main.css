@@ -5,16 +5,26 @@ body {
 }
 .wrap {
     display:block;
-    width:200px;
-    height:200px;
+    width:640px;
+    height:480px;
     margin:3em auto;
+    position:relative;
 }
-.droparea {
+img {
+    position:absolute;
+    top:0; left:0;
+    transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+}
+video {
+    transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+}
+.area {
     display:block;
-    width:200px;
-    height:200px;
+    width:640px;
+    height:480px;
     border:1px dashed #aaa;
-    background:white;
 }
 button {
     padding:2px 5px;
