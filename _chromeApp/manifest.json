@@ -1,0 +1,14 @@
+{
+    "name": "Bookmarks",
+    "description": "My Bookmarks",
+    "version": "0.0.1",
+    "app": {
+        "background": {
+            "scripts": ["background.js"]
+        }
+    },
+    "icons": {
+        "16": "24.png",
+        "128": "24.png"
+    }
+}

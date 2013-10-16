@@ -1,0 +1,72 @@
+* {
+    margin:0; padding:0; border:0;
+
+    user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    
+    -ms-touch-action: none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -webkit-user-drag: none;
+    
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    
+    font-smoothing: antialiased;
+    -moz-font-smoothing: antialiased;
+    -webkit-font-smoothing: subpixel-antialiased;
+    -webkit-text-size-adjust: 100%;
+
+    font-size: 100%;
+    font: inherit;
+
+    vertical-align: baseline;
+}
+
+*::-moz-selection{ background: #4379b8; /* blue */ color: white; }
+*::selection{ background: #4379b8; /* blue */ color: white; }
+*:disabled{ background: #ebebeb; color: #a5a5a5; }
+input::-moz-selection,
+textarea::-moz-selection{ background: #000; color: #fff; }
+input::selection,
+textarea::selection{ background: #000; color: #fff; }
+
+html, body {
+    height: 100%;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+table.fixed {
+    table-layout: fixed;
+}
+textarea {
+    resize:none;
+}
+img { vertical-align: middle }
+.animated,
+.animated * {
+    transition:         all .2s ease-out;
+    -webkit-transition: all .2s ease-out;
+    -ms-transition:     all .2s ease-out;
+    -moz-transition:    all .2s ease-out;
+    -o-transition:      all .2s ease-out;
+}
+.ellipsis, .ellipsis * {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.not_selectable {
+    /* use on lower elements only. most browsers do not support exclusion on this */
+    user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: -moz-none;
+    -o-user-select: none;
+}
