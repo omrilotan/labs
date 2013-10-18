@@ -42,7 +42,7 @@ navigator.getUserMedia = navigator.getUserMedia ||
                 context.translate(640, 0);
                 context.scale(-1, 1);
             }
-            overlay.src = "assets/guyfox.png";
+            overlay.src = "assets/guyfawkes.png";
         };
         context.clearRect(0, 0, canvas.width, canvas.height);
         image.src = data;
