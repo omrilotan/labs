@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title></title>
+	</head>
+	<body>
+        <h1>guest</h1>
+        <script src="notify.js"></script>
+        <script>
+window.addEventListener("message", function (event) {
+    notify("Got a message: \"" + event.data + "\"");
+    notify("I will reply in 4 seconds");
+    setTimeout(function () {
+        notify("I'm sending a message back: \"Hi\"");
+        event.source.postMessage("Hi", event.origin);
+    }, 4000);
+}, false);
+        </script>
+	</body>
+</html>

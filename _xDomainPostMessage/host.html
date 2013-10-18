@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title></title>
+	</head>
+	<body>
+        <h1>host</h1>
+        <button>message</button>
+        <iframe src="http://localhost:10002"
+                style="width:600px; max-height:400px; border:1px solid grey;"></iframe>
+        <script src="notify.js"></script>
+        <script>
+var i = document.getElementsByTagName("iframe")[0],
+    b = document.getElementsByTagName("button")[0];
+
+b.addEventListener("click", function (event) {
+    // postMessage's second argument is the target URL
+    notify("Sending the message: \"hello\"");
+    i.contentWindow.postMessage("hello", i.src);
+}, false);
+
+
+window.addEventListener("message", function (event) {
+    notify("Got a message: \"" + event.data + "\"");
+}, false);
+        </script>
+	</body>
+</html>
