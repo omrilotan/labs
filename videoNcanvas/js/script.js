@@ -9,6 +9,7 @@ navigator.getUserMedia = navigator.getUserMedia ||
     var img = document.getElementById("guy");
     var video = document.getElementById("videoarea");
     var button = document.getElementById("save");
+    var rick = document.getElementById("rick");
     var localMediaStream = null;
 
     canvas.width = 640;
@@ -18,16 +19,33 @@ navigator.getUserMedia = navigator.getUserMedia ||
         event.preventDefault();
     };
     var drop = function (event) {
+        //debugger;
         var target = event.target;
         event.preventDefault();
-        var data = event.dataTransfer;
+        var data = event.dataTransfer.getData("text/uri-list");
+        var image = new Image(640, 480);
+        image.src = data;
+        image.onload  = function () {
+            context.drawImage(image, 0, 0);
+            addmask();
+        }
+        /*
+        console.log(data);
         var reader = new FileReader();
-        [].forEach.call(data.files, function (file) {
-            reader.onload = function () {
-                draw(reader.result);
-            }
-            reader.readAsDataURL(file);
-        });
+        reader.onload = function () {
+            draw(reader.result);
+        }
+        reader.readAsDataURL(img);
+        */
+    };
+    var addmask = function () {
+        var overlay = new Image();
+        overlay.onload = function () {
+            context.drawImage(overlay, 0, 0);
+            context.translate(640, 0);
+            context.scale(-1, 1);
+        }
+        overlay.src = "assets/guyfawkes.png";
     };
     var draw = function (data) {
         video.style.display = "none";
@@ -35,14 +53,8 @@ navigator.getUserMedia = navigator.getUserMedia ||
         canvas.style.display = "block";
         var image = new Image();
         image.onload = function() {
-            var overlay = new Image();
             context.drawImage(image, 0, 0);
-            overlay.onload = function () {
-                context.drawImage(overlay, 0, 0);
-                context.translate(640, 0);
-                context.scale(-1, 1);
-            }
-            overlay.src = "assets/guyfawkes.png";
+            addmask();
         };
         context.clearRect(0, 0, canvas.width, canvas.height);
         image.src = data;
@@ -75,11 +87,47 @@ navigator.getUserMedia = navigator.getUserMedia ||
 
 
     canvas.ondragover = allowDrop;
+    img.ondragover = video.ondragover = function () {
+        video.style.display = "none";
+        canvas.style.display = "block";
+    };
     canvas.ondrop = drop;
 
+    rickdrag = {
+        start: function (event) {
+            event.target.style.opacity = "0.4";
+        },
+        enter: function (event) {
+            event.target.classList.add("over");
+        },
+        over: function (event) {
+            if (event.preventDefault) {
+                event.preventDefault();
+            }
+            event.dataTransfer.dropEffect = "move";
+            return false;
+        },
+        leave: function (event) {
+            event.target.classList.remove("over");
+        },
+        drop: function (event) {
+            if (event.stopPropagation) {
+                event.stopPropagation();
+            }
+        },
+        end: function (event) {
+            event.target.classList.remove("over");
+        }
+    };
 
     document.getElementById("snap").addEventListener("click", snap, false);
     document.getElementById("capture").addEventListener("click", snapshot, false);
+    rick.addEventListener("dragstart", rickdrag.start, false);
+    rick.addEventListener("dragenter", rickdrag.enter, false);
+    rick.addEventListener("dragover", rickdrag.over, false);
+    rick.addEventListener("dragleave", rickdrag.leave, false);
+    rick.addEventListener("drop", rickdrag.drop, false);
+    rick.addEventListener("dragend", rickdrag.end, false);
 
 
 }(document));

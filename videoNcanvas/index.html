@@ -22,12 +22,24 @@
 	<body>
         <div class="wrap">
             <video autoplay id="videoarea" class="area"></video>
-            <img id="guy" src="assets/guyfawkes.png" class="area" />
             <canvas style="display:none;" id="droparea" class="area"></canvas>
+            <img id="guy" src="assets/guyfawkes.png" class="area" />
             <button id="snap">1) snap</button>
             <button id="capture">2) capture</button>
             <button id="save">3) save</button>
+            <button onclick="window.location = window.location.href">or) restart</button>
         </div>
+        <ol>
+            <li>Click 1, start your webcam</li>
+            <li>Click 2 when your face is in the right position</li>
+            <li>Click 3 -> save the picture</li>
+        </ol>
+        <hr />
+        <ol>
+            <li>Click 2</li>
+            <li>Drag a picture on the mask, you can use this one: <img draggable="true" id="rick" src="rick.jpg" style="height:24px;" /> or drag one from your desktop</li>
+            <li>Click 3 -> save the picture</li>
+        </ol>
         <script src="js/script.js"></script>
 	</body>
 </html>
