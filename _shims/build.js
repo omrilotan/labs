@@ -18,11 +18,13 @@ var entries = ["// Build Date: " + (function (date) {
             items = [];
         for (key in obj) {
             if (obj.hasOwnProperty(key) &&
-                    typeof obj[key] === "object") {
+                    typeof obj[key].forEach === "function") {
                 obj[key].forEach(function (item, index, array) {
                     sum++;
                     addEntry(key, item);
                 });
+            } else {
+                console.log(key + " is not an array")
             }
         }
     },

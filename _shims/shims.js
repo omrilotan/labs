@@ -1,19 +1,5 @@
 // Build Date: 2013-11-12
 
-if (typeof Array.prototype.indexOf === "function"){
-	Array.prototype.indexOf = function indexOf (what, i) {
-	    i = i || 0;
-	    var len = this.length;
-	    while (i < len) {
-	        if (this[i] === what) {
-	            return i;
-	        }
-	        ++i;
-	    }
-	    return -1;
-	};
-}
-
 if (typeof String.prototype.trim === "function"){
 	String.prototype.trim = function trim () {
 	    return this.replace(/^\s+|\s+$/g, "");
@@ -30,11 +16,17 @@ if (typeof Array.prototype.forEach === "function"){
 	};
 }
 
-if (typeof Object.prototype.hasOwnProperty === "function"){
-	Object.prototype.hasOwnProperty = function hasOwnProperty (property) {
-	    var _prototype = this.__proto__ || this.constructor.prototype;
-	    return (property in this) && (!(property in _prototype) ||
-	            _prototype[property] !== this[property]);
+if (typeof Array.prototype.indexOf === "function"){
+	Array.prototype.indexOf = function indexOf (what, i) {
+	    i = i || 0;
+	    var len = this.length;
+	    while (i < len) {
+	        if (this[i] === what) {
+	            return i;
+	        }
+	        ++i;
+	    }
+	    return -1;
 	};
 }
 
@@ -89,4 +81,16 @@ if (typeof Function.prototype.bind === "function"){
 	    bound.prototype = new dummy();
 	    return bound;
 	};
+}
+
+if (typeof Element.prototype.matches === "function"){
+	Element.prototype.matches =
+	        Element.prototype.matchesSelector ||
+	        Element.prototype.mozMatchesSelector ||
+	        Element.prototype.webkitMatchesSelector ||
+	        Element.prototype.msMatchesSelector ||
+	        Element.prototype.oMatchesSelector || function (query) {
+	            var collection = document.querySelectorAll(query);
+	            return [].indexOf.call(collection, this);
+	        };
 }
