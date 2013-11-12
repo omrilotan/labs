@@ -35,7 +35,7 @@ var entries = ["// Build Date: " + (function (date) {
                 function (error, result) {
                     // add one indentation level
                     result = "\t" + result.replace(/\n/gmi, "\n\t");
-                    entries.push("if (typeof " + key + ".prototype." + nkey + " === \"function\"){\r\n" + result + "\r\n}");
+                    entries.push("if (typeof " + key + ".prototype." + nkey + " !== \"function\"){\r\n" + result + "\r\n}");
                     if (entries.length === sum) {
                         write(entries.join("\r\n\r\n"));
                     }
