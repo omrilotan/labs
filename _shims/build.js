@@ -2,7 +2,14 @@
 var fs = require("fs");
 
 // operations
-var entries = [],
+var entries = ["// Build Date: " + (function (date) {
+            var toDoubleDigit = function (num) {
+                return num < 10 ? "0" + num : "" + num;
+            };
+            return date.getFullYear() + "-" +
+                    toDoubleDigit(date.getMonth() + 1) + "-" +
+                    toDoubleDigit(date.getDate());
+        }((new Date)))],
     sum = 0,
     startShimming = function (obj) {
         console.log(obj);
@@ -21,7 +28,7 @@ var entries = [],
     },
     addEntry = function (key, nkey) {
         console.log(key + "/" + nkey + ".js");
-        fs.readFile(key + "/" + nkey + ".js",
+        fs.readFile("lib/" + key + "/" + nkey + ".js",
                 "utf8",
                 function (error, result) {
                     // add one indentation level
@@ -33,7 +40,7 @@ var entries = [],
                 });
     },
     write = function (code) {
-        fs.writeFile("dist/shims.js", code, function (error) {
+        fs.writeFile("shims.js", code, function (error) {
             if (error) {
                 
             } else {
@@ -43,7 +50,7 @@ var entries = [],
     };
 
 var init = function () {
-    fs.readFile("shims.json",
+    fs.readFile("list.json",
             "utf8",
             function (error, result) {
                 startShimming(JSON.parse(result));
