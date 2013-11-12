@@ -1,16 +1,20 @@
-if (typeof String.prototype.trim === "function"){
-	String.prototype.trim = function trim () {
-	    return this.replace(/^\s+|\s+$/g, "");
-	};
-}
-
-if (typeof Array.prototype.forEach === "function"){
-	Array.prototype.forEach = function forEach (fn, scope) {
-	    var i = 0,
-	        len = this.length;
-	    for(; i < len; ++i) {
-	        fn.call(scope, this[i], i, this);
+if (typeof Function.prototype.bind === "function"){
+	Function.prototype.bind = function bind (that) {
+	    if (typeof this !== "function") {
+	        // closest thing possible to the ECMAScript 5 internal IsCallable function
+	        throw new TypeError("Function.prototype.bind - what is trying to be bound is not callable");
 	    }
+	    var args = Array.prototype.slice.call(arguments, 1), 
+	        original = this, 
+	        dummy = function () {},
+	        bound = function () {
+	            return original.apply(this instanceof dummy && that ?
+	                    this : that,
+	                    args.concat(Array.prototype.slice.call(arguments)));
+	        };
+	    dummy.prototype = this.prototype;
+	    bound.prototype = new dummy();
+	    return bound;
 	};
 }
 
@@ -25,6 +29,34 @@ if (typeof Array.prototype.indexOf === "function"){
 	        ++i;
 	    }
 	    return -1;
+	};
+}
+
+if (typeof Element.prototype.matches === "function"){
+	Element.prototype.matches =
+	        Element.prototype.matchesSelector ||
+	        Element.prototype.mozMatchesSelector ||
+	        Element.prototype.webkitMatchesSelector ||
+	        Element.prototype.msMatchesSelector ||
+	        Element.prototype.oMatchesSelector || function (query) {
+	            var collection = document.querySelectorAll(query);
+	            return [].indexOf.call(collection, this);
+	        };
+}
+
+if (typeof Array.prototype.forEach === "function"){
+	Array.prototype.forEach = function forEach (fn, scope) {
+	    var i = 0,
+	        len = this.length;
+	    for(; i < len; ++i) {
+	        fn.call(scope, this[i], i, this);
+	    }
+	};
+}
+
+if (typeof String.prototype.trim === "function"){
+	String.prototype.trim = function trim () {
+	    return this.replace(/^\s+|\s+$/g, "");
 	};
 }
 
@@ -66,25 +98,5 @@ if (typeof Array.prototype.reduce === "function"){
 	        throw new TypeError("Reduce of empty array with no initial value");
 	    }
 	    return value;
-	};
-}
-
-if (typeof Function.prototype.bind === "function"){
-	Function.prototype.bind = function bind (that) {
-	    if (typeof this !== "function") {
-	        // closest thing possible to the ECMAScript 5 internal IsCallable function
-	        throw new TypeError("Function.prototype.bind - what is trying to be bound is not callable");
-	    }
-	    var args = Array.prototype.slice.call(arguments, 1), 
-	        original = this, 
-	        dummy = function () {},
-	        bound = function () {
-	            return original.apply(this instanceof dummy && that ?
-	                    this : that,
-	                    args.concat(Array.prototype.slice.call(arguments)));
-	        };
-	    dummy.prototype = this.prototype;
-	    bound.prototype = new dummy();
-	    return bound;
 	};
 }

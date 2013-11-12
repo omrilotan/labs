@@ -12,5 +12,8 @@
     ],
     "Function": [
         "bind"
+    ],
+    "Element": [
+        "matches"
     ]
 }
