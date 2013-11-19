@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" /> 
+        <title>Hello! my name is</title>
+        <style>
+@font-face {
+    font-family:"Waiting for the Sunrise";
+    font-style:normal;
+    font-weight:400;
+    src:local("Waiting for the Sunrise"),
+        local("WaitingfortheSunrise"),
+        url(http://themes.googleusercontent.com/static/fonts/waitingforthesunrise/v4/eNfH7kLpF1PZWpsetF-hazFoTnl3mJKNVVnPtbVHJow.woff) format("woff");
+}
+.hello-my-name-is {
+    font:normal 13px/16px sans-serif;
+    width:15em;
+    border-radius:1em;
+    border-bottom:solid 1em red;
+    text-align:center;
+    box-shadow:0 0 1em rgba(0, 0, 0, .3);
+}
+.hello-my-name-is .top {
+    border-radius:1em 1em 0 0;
+    background:red;
+    color:white;
+    padding:.3em 0 0;
+}
+.hello-my-name-is .top div {
+    font-weight:bold;
+    font-size:2em;
+    line-height:1em;
+    text-transform:uppercase;
+}
+.hello-my-name-is .name {
+    font:normal 4em/1.3em "Waiting for the Sunrise", sans-serif;
+    color:black;
+}
+        </style>
+	</head>
+	<body>
+        <div class="hello-my-name-is">
+            <div class="top">
+                <div>Hello!</div>
+                my name is
+            </div>
+            <div class="name" contenteditable="true">
+                George
+            </div>
+        </div>
+	</body>
+</html>
