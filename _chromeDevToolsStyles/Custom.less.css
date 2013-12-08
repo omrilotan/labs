@@ -1,0 +1,64 @@
+@toolbar-background:#eee;
+@toolbar-color:#999;
+
+@background-app:#222;
+@foreground:#ccc;
+
+
+body.platform-mac .monospace, body.platform-mac .source-code {
+    font-family: Monaco, monospace !important;
+}
+body.platform-mac.platform-mac-snowleopard .monospace,
+body.platform-mac.platform-mac-snowleopard .source-code {
+    font:normal 13px Menlo, monospace !important;
+}
+body.platform-windows .monospace, body.platform-windows .source-code {
+    font:normal 13px Consolas, Lucida Console, monospace !important;
+}
+body.platform-linux .monospace, body.platform-linux .source-code {
+    font:normal 13px dejavu sans mono, monospace;
+}
+
+
+
+#-webkit-web-inspector {
+
+    /*
+    > * {
+        background-color:@background-app !important;
+        color:@foreground !important;
+        text-shadow:none !important;
+        box-shadow:none !important;
+    }
+    */
+
+    #toolbar {
+        background-color:@toolbar-background !important;
+        color:@toolbar-color !important;
+    }
+    #toolbar * {
+        background-color:transparent !important;
+    }
+    
+    #toolbar-search-item {
+        margin-top: 12px !important;
+    }
+    
+    #main {
+    }
+
+    #console-messages,
+    #network-container {
+        background-color:@background-app !important;
+        color:@foreground !important;
+    }
+
+    #bottom-status-bar-container {
+        background-color:@toolbar-background !important;
+        color:@toolbar-color !important;
+    }
+
+    ::-webkit-scrollbar { height: 10px; width: 10px; background: #222; }
+    ::-webkit-scrollbar-thumb { background: #5d8aa8; }
+    ::-webkit-scrollbar-corner { background: #000; }
+}
