@@ -2,7 +2,7 @@ var http = require("http"),
     fs = require("fs"),
     url = require("url"),
     path = require("path"),
-    root = path.join(process.cwd(), "www/"),
+    root = path.join(process.cwd(), ""),
     port = 70;
 
 process.argv.forEach(function(value, index, array) {

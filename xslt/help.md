@@ -5,14 +5,40 @@ The XSL Processor will find the _template match_ (`<xsl:template match="">`) wit
 
 __XML__
 ```xml
-<company-card>
-    <title>Company Name</title>
-    <description>Company Description</description>
-</company-card>
+<company>
+    <title>"Proof Of Concept" Technologies</title>
+    <description>A Software Company</description>
+    <employees>
+        <employee>
+            <name>George</name>
+            <job>CEO</job>
+            <seniority>10</seniority>
+            <level>Gold</level>
+        </employee>
+        <employee>
+            <name>Bob</name>
+            <job>Developer</job>
+            <seniority>5</seniority>
+            <level>Green</level>
+        </employee>
+        <employee>
+            <name>Buggy</name>
+            <job>Senior Developer</job>
+            <seniority>10</seniority>
+            <level>Green</level>
+        </employee>
+        <employee>
+            <name>wheel</name>
+            <job>IT technician</job>
+            <seniority>2</seniority>
+            <level>Red</level>
+        </employee>
+    </employees>
+</company>
 ```
 __XSL__
 ```xml
-<xsl:template match="/company-card">
+<xsl:template match="/company">
     <h1>
         <xsl:value-of select="title"/>
     </h1>
@@ -94,7 +120,7 @@ For the same example from above:
 
 __XSL__
 ```xml
-<xsl:template match="/company-card">
+<xsl:template match="/company">
     <h1>
         <xsl:value-of select="title"/>
     </h1>
@@ -107,5 +133,15 @@ __XSL__
     </p>
 </xsl:template>
 ```
-
+## Attributes) xsl:attribute
+__XSL__
+```xml
+    <li>
+        <xsl:attribute name="style">
+            color:<xsl:value-of select="level"/>
+        </xsl:attribute>
+        Name: <u><xsl:value-of select="name"/></u>, Title: <u><xsl:value-of select="job"/></u>
+    </li>
+```
 ## XPath and XQuery
+TBC
