@@ -15,47 +15,63 @@ var makeup = (function __makeup__ () {
                     var XHR = newXHR();
                     XHR.open("GET", url, true);
                     XHR.onload = function makeup$request$onloadCallback () {
-                        callback(XHR.responseXML);    // responseText
+                        callback(XHR.responseXML);    // not responseText
                     };
                     XHR.send();
                 };
             }
         }()),
 
+        processor = new XSLTProcessor(),
+        stylessheet = null,
+        ready = false,
+        listeners = [],
+
         // Constructor
-        Makeup = function Makeup (xml, xsl, callback) {
+        Makeup = function Makeup (xml, callback) {
             if (typeof request !== "function") {
                 return;
             }
-            this.waitingOn = 2;    // waiting on two files
-            this.callback = callback;
             var that = this;
-            request(xml, function Makeup$request (response) {
-                that.xml = response;
-                if (--that.waitingOn === 0) {
-                    that.fuse();
-                }
-            });
-            request(xsl, function Makeup$request (response) {
-                that.xsl = response;
-                if (--that.waitingOn === 0) {
-                    that.fuse();
+            request(xml, function Makeup$request (responseXML) {
+                if (ready) {
+                    that.fuse(responseXML, callback);
+                } else {
+                    listeners.push(function () {
+                        that.fuse(responseXML, callback);
+                    });
                 }
             });
         };
-    Makeup.prototype.fuse = function Makeup$fuse () {
+    Makeup.prototype.fuse = function Makeup$fuse (XMLData, callback) {
         var fragment = document.createDocumentFragment();
         if (document.implementation && document.implementation.createDocument) {
-            processor = new XSLTProcessor();
-            processor.importStylesheet(this.xsl);
-            resultDocument = processor.transformToFragment(this.xml, document);
+            resultDocument = processor.transformToFragment(XMLData, document);
             fragment = resultDocument;    // DOM Element
         } else {
-            fragment.innerHTML = this.xml.transformNode(this.xsl);
+            fragment.innerHTML = XMLData.transformNode(this.xsl);
         }
-        this.callback(fragment);
+        if (typeof callback === "function") {
+            callback(fragment);
+        }
     };
-    return function makeup (xml, xsl, callback) {
-        new Makeup(xml, xsl, callback);
+    return {
+        load: function makeup$load (xsl, callback) {
+            var that = this;
+            request(xsl, function Makeup$loadCallback (responseXML) {
+                ready = true;
+                listeners.forEach(function (item) {
+                    item();
+                });
+                stylessheet = responseXML;
+                processor.importStylesheet(responseXML);
+                if (typeof callback === "function") {
+                    callback.call(that);
+                }
+            });
+        },
+        fuse: function makeup$fuse (xml, callback) {
+            new Makeup(xml, callback);
+        }
     };
 }());

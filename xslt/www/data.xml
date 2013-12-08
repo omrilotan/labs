@@ -1,18 +1,32 @@
 <?xml version="1.0"?>
 <!--?xml-stylesheet type="text/xsl" href="index.xsl"?-->
 <company>
-    <title>Proof Of Concept</title>
+    <title>"Proof Of Concept" Technologies</title>
     <description>A Software Company</description>
     <employees>
         <employee>
-            <name>bob</name>
-            <job>Developer</job>
-            <seniority>5</seniority>
+            <name>George</name>
+            <job>CEO</job>
+            <seniority>10</seniority>
+            <level>Gold</level>
         </employee>
         <employee>
-            <name>bagi</name>
+            <name>Bob</name>
+            <job>Developer</job>
+            <seniority>5</seniority>
+            <level>Green</level>
+        </employee>
+        <employee>
+            <name>Buggy</name>
             <job>Senior Developer</job>
             <seniority>10</seniority>
+            <level>Green</level>
+        </employee>
+        <employee>
+            <name>wheel</name>
+            <job>IT technician</job>
+            <seniority>2</seniority>
+            <level>Red</level>
         </employee>
     </employees>
 </company>
