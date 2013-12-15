@@ -3,7 +3,7 @@
     <body style="padding:3em;">
         <a id="bookmarklet" title="Drag me to your bookmarks bar">inkling bookmarklet</a>
         <script>
-document.getElementById("bookmarklet").href = "javascript:var s=document.createElement('script'),head=document.head||document.getElementsByTagName('head')[0],url=" + window.location.href.replace(/index\.html.*/,'') + 'inkling.js' + ";s.src=url;head.appendChild(s);void(0);";
+document.getElementById("bookmarklet").href = "javascript:var s=document.createElement('script'),head=document.head||document.getElementsByTagName('head')[0],url='" + window.location.href.replace(/index\.html.*/,'') + "inkling.js';s.src=url;head.appendChild(s);void(0);";
         </script>
         <script src="inkling.js"></script>
     </body>
