@@ -2,4 +2,4 @@ labs
 ====
 Little Chunks of code
 ----
-http://yomyo.me
+http://omrilotan.github.io/labs/
