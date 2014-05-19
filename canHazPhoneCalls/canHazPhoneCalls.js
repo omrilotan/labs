@@ -1,38 +1,47 @@
 var canHazPhoneCalls = (function __canHazPhoneCalls__ (window, navigator, document) {
     var constants = {
-        messages: {
-            0: "WEBRTC_WAITING_FOR_MICROPHONE",
-            1: "DETECTING_MICROPHONE_INPUT",
-            2: "ALLOW_MICROPHONE_ACCESS",
-            3: "MICROPHONE_DETECTED",
-            
-            4: "FLASH_WAITING_FOR_MICROPHONE",
-            5: "FLASH_MICROPHONE_DETECTED",
-            
-            6: "NO_AVAILABLE_MEDIA",
-            7: "NO_MICROPHONE_DETECTED"
+            msg: {
+                0: "WEBRTC_WAITING_FOR_MICROPHONE",
+                1: "DETECTING_MICROPHONE_INPUT",
+                2: "ALLOW_MICROPHONE_ACCESS",
+                3: "MICROPHONE_DETECTED",
+                
+                4: "FLASH_WAITING_FOR_MICROPHONE",
+                5: "FLASH_MICROPHONE_DETECTED",
+                
+                6: "NO_AVAILABLE_MEDIA",
+                7: "NO_MICROPHONE_DETECTED"
+            },
+            svc: {
+                0: "WEBRTC",
+                1: "FLASH",
+                2: "USER_MEDIA_MICROPHONE",
+                3: "FLASH_MICROPHONE"
+            }
         },
-        services: {
-            0: "WEBRTC",
-            1: "FLASH",
-            2: "USER_MEDIA_MICROPHONE",
-            3: "FLASH_MICROPHONE"
-        }
-    };
-    var exports = {};
-    var resources;
-    var register = function (who, what, fn) {
-        if (typeof fn === "function") {
-            fn(who, what);
-        }
-    };
-    var detect = {};
+
+        // Interface
+        exports = {},
+
+        // Detection methods
+        detect = {},
+
+        // flash file tests microphone presence
+        FLASH_MIC_TEST_SWIFF,
+        // FLASH_MIC_TEST_SWIFF = "data:application/x-shockwave-flash;base64,Q1dTCnUIAAB4nKVVXXPaRhTdRcCCANv4A9tJ01KcTl8KWmE7GMamdcE0zBTjMX7oS6espZVRo6+RhIGn5md1pg/5C/Slf6e9QhDjOMk4qQZmd++ec+7V0dXKQak/EfrrNdrBqJndQQj9sRGNIXTsqlrtstnKj03D8mqwOikMfN+pSdJoNCqN9ku2eyPJ1WpVomWpXC4CouhNLJ+Ni5a3V6jnZwpN7imu7vi6beWDNbu2h/5JoTCXHZvOW1nLKzHVvuYlxTalMXMkuUSlQAdAtYbLmW+7V7Zt1E8DVL5lMG+Qv3BtjXseyDMj3+gdHkvvopf4vAn/epnKcpFWinT/qlyu7e/XysGyRukSN0SG1A73mcp8dp98cEXl2j7Qqsvke9g53VZ1bfIo8h0yfyy9497j/FSVt3Y6Q9eYPSNVkbjBTW75HlgqzyxVlZpmuybz68xxDF1hgaA0LnoDW3k1Yre8qAX2Hkt3wM8tCe6s0/n4QzZNaYH2/EuufRztXU0cLl1yzx66Cgf43rxJOh2oxdVvudpybXNWi8Ncjwf4k8KCEIBnWWq65fnMUni7WQd2SdfVWqtSacly5YBWyvTFkSwfHTVeNA/OqjI9qzQPD6rH0gPqQk21lWFg8lxN/QS1JepCzXb1Gx16uvn5qu+RyM8a7b5Pd949THV6WG7RJv2xLH8o1QPqQq390NzHqrWXzQ1D3f9jxwcl3tvS0vzgq+dRI4L+RW+2UnAoYtRTuMXzMkJvNteFIADXGioFwzcoemvrauzUddkkfj40r7lLTF35DV6idIfp1pVuckO3eGb2VkHZnmOwSbJj3+q8YejO5hxcWwZn4WUczU65Hvd93brxEgA7Zyb34kOPd3RFgHUqlDS5qjMRYq7tDGyLxzUXgHI63PUmns/NRI8rQ1f3J5nF5IJZ3BA77cZl9+Jl9/wsHaRcZItZQarMDffvZFdCPT72uQteZs/mk7YFo8YUnmKq2mCGcc2UV2FpP9tM5WpUgeAKbLaCunozv+Pd69+54s9r5LfBCbV6FgxNMIj5yoC7mWboVQjNzvIwxYfmDSO5e/sNG74/YJ0b7zlwf1zM4VwsR3aSuZXtWC6b28l9hb4gOEKwQHCUROJESBAsEpwiOE1whsRWSXyNkHVCNgjeJHiL4BzB2ySxS/ATgoH7jOAvSTJPhK+JUCDCHhGek6AHZg0RgQEL6P6Fo7FEFMVicYwwwSiSwEhIIiSiFEZR2I7jaBQjAsykKEzpTxCKYDGVntJ+up/RVrqrGGIRDDECMVFbe4mQEBFCiPh3K4tfi/8AJCoAhEJs/TtxqsW7GxGYpaYaCWfpqZaA2bQvtrJokITI0+5mIB0LeGtTOm2jX7eeo6mW6m5FIB6HnMlvp5Sjfo72t2l/h/Z3af8J7T+l/Rj8fkHPwmsQBfj3G7tzG+bdXFruZvQDbPwH0DZtfg==",
+
+        register = function (who, what, fn) {
+            if (typeof fn === "function") {
+                fn(who, what);
+            }
+        };
     detect.webRTC = function canHazPhoneCalls$_detect$webRTC (fn) {
         window.RTCPeerConnection = window.RTCPeerConnection ||
                 window.webkitRTCPeerConnection ||
                 window.mozRTCPeerConnection ||
                 window.msRTCPeerConnection;
-        register(constants.services[0],
+
+        register(constants.svc[0],    // WEBRTC_WAITING_FOR_MICROPHONE
                 typeof window.RTCPeerConnection === "function",
                 fn);
     };
@@ -40,14 +49,14 @@ var canHazPhoneCalls = (function __canHazPhoneCalls__ (window, navigator, docume
         var finished = false,
             timer = setTimeout(function () {
                 finished = true;
-                register(constants.services[2],
+                register(constants.svc[2],
                         false,
                         fn);
                 clearTimeout(timer);
             }, (40 * 1000)),
             allowTimer = setTimeout(function () {
                 clearTimeout(allowTimer);
-                report(constants.messages[2]);
+                report(constants.msg[2]);
             }, (5 * 1000)),
             start,
             end;
@@ -84,7 +93,7 @@ var canHazPhoneCalls = (function __canHazPhoneCalls__ (window, navigator, docume
                     analyser.connect(javascriptNode);
                     javascriptNode.connect(audioContext.destination);
 
-                    report(constants.messages[1]);
+                    report(constants.msg[1]);
                     javascriptNode.onaudioprocess = function () {
                         if (finished === true) {
                             return;
@@ -92,7 +101,7 @@ var canHazPhoneCalls = (function __canHazPhoneCalls__ (window, navigator, docume
                         clearTimeout(timer);
                         timer = setTimeout(function () {
                             finished = true;
-                            register(constants.services[2],
+                            register(constants.svc[2],
                                     false,
                                     fn);
                             clearTimeout(timer);
@@ -112,7 +121,7 @@ var canHazPhoneCalls = (function __canHazPhoneCalls__ (window, navigator, docume
                         average = values / len;
                         if (average > 0) {
                             finished = true;
-                            register(constants.services[2],
+                            register(constants.svc[2],
                                     true,
                                     fn);
                             clearTimeout(allowTimer);
@@ -127,12 +136,12 @@ var canHazPhoneCalls = (function __canHazPhoneCalls__ (window, navigator, docume
                     if (finished === true) {
                         return;
                     }
-                    register(constants.services[2],
+                    register(constants.svc[2],
                             false,
                             fn);
                 });
         } else {
-            register(constants.services[2],
+            register(constants.svc[2],
                     false,
                     fn);
         }
@@ -150,7 +159,7 @@ var canHazPhoneCalls = (function __canHazPhoneCalls__ (window, navigator, docume
                     mimeTypes[type]) {
                 try {
                     version = parseInt(mimeTypes[type].enabledPlugin.description.replace(/[a-zA-Z]/g, ""), 10);
-                    register(constants.services[1],
+                    register(constants.svc[1],
                             version > 10,
                             fn);
                 } catch (err) {
@@ -165,7 +174,7 @@ var canHazPhoneCalls = (function __canHazPhoneCalls__ (window, navigator, docume
             } catch (err) {
                 version = -1;
             }
-            register(constants.services[1],
+            register(constants.svc[1],
                     version !== -1,
                     fn);
         }
@@ -175,7 +184,7 @@ var canHazPhoneCalls = (function __canHazPhoneCalls__ (window, navigator, docume
         var finished = false,
             timer = setTimeout(function () {
                 finished = true;
-                register(constants.services[3],
+                register(constants.svc[3],
                         false,
                         fn);
             }, (5 * 1000)),
@@ -183,7 +192,7 @@ var canHazPhoneCalls = (function __canHazPhoneCalls__ (window, navigator, docume
             param,
             embed,
             name = "flash_mic_detect",
-            src = resources.FLASH_MICROPHONE_TEST,
+            src = FLASH_MIC_TEST_SWIFF,
             first = document.getElementById(name),
             createElementWithAttributes = function createElementWithAttributes (tag, attributes) {
                 var element = document.createElement(tag);
@@ -234,7 +243,7 @@ var canHazPhoneCalls = (function __canHazPhoneCalls__ (window, navigator, docume
                     window[name] :
                     document[name],
                 mics = movie.micNames();
-            register(constants.services[3],
+            register(constants.svc[3],
                     mics.length > 0,
                     fn);
             clearTimeout(timer);
@@ -243,53 +252,51 @@ var canHazPhoneCalls = (function __canHazPhoneCalls__ (window, navigator, docume
 
     };
 
-    exports.resources = function canHazPhoneCalls$resources (list) {
-        resources = list;
-        return exports;
-    };
-
-    exports.report = function canHazPhoneCalls$report (fn) {
-        if (!resources) {
-            return;
+    exports = function canHazPhoneCalls (options) {
+        options = options || {};
+        if (typeof options.FLASH_MIC_TEST_SWIFF === "string") {
+            FLASH_MIC_TEST_SWIFF = options.FLASH_MIC_TEST_SWIFF;
         }
-        detect.webRTC(fn);
-        detect.userMedia_mic(fn);
-        detect.flash(fn);
-        detect.flash_mic(fn);
-        return exports;
     };
 
     exports.check = function canHazPhoneCalls$check (report, pass, fail) {
-        var responses = {
-            WEBRTC: function (who, what) {
-                if (!!what) {
-                    report(constants.messages[0]);
-                    detect.userMedia_mic(responses.USER_MEDIA_MICROPHONE, report);
-                } else {
-                    detect.flash(responses.FLASH);
-                }
-            },
-            USER_MEDIA_MICROPHONE: function (who, what) {
-                if (!!what) {
-                    pass(constants.messages[3]);
-                } else {
-                    fail(constants.messages[7]);
-                }
-            },
-            FLASH: function (who, what) {
-                if (!!what) {
-                    report(constants.messages[4]);
-                    detect.flash_mic(responses.FLASH_MICROPHONE);
-                } else {
-                    fail(constants.messages[6]);
-                }
-            },
-            FLASH_MICROPHONE: function (who, what) {
-                if (!!what) {
-                    pass(constants.messages[5]);
-                } else {
-                    fail(constants.messages[7]);
-                }
+        var responses = {};
+
+        // WEBRTC
+        responses[constants.svc[0]] = function (who, what) {
+            if (!!what) {
+                report(constants.msg[0]);
+                detect.userMedia_mic(responses[constants.svc[2]], report);
+            } else {
+                detect.flash(responses.FLASH);
+            }
+        };
+
+        // USER_MEDIA_MICROPHONE
+        responses[constants.svc[2]] = function (who, what) {
+            if (!!what) {
+                pass(constants.msg[3]);
+            } else {
+                fail(constants.msg[7]);
+            }
+        };
+
+        // FLASH
+        responses[constants.svc[1]] = function (who, what) {
+            if (!!what) {
+                report(constants.msg[4]);
+                detect.flash_mic(responses[constants.svc[3]]);
+            } else {
+                fail(constants.msg[6]);
+            }
+        };
+
+        // FLASH_MICROPHONE
+        responses[constants.svc[3]] = function (who, what) {
+            if (!!what && typeof FLASH_MIC_TEST_SWIFF === "string") {
+                pass(constants.msg[5]);
+            } else {
+                fail(constants.msg[7]);
             }
         };
         report = typeof report === "function" ? report : function empty () {};

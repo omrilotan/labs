@@ -75,12 +75,10 @@ document.getElementById("test").onclick = function () {
     var results = document.getElementById("results");
     results.innerHTML = "";
     
-    canHazPhoneCalls.resources({
-        "FLASH_MICROPHONE_TEST": "mic.swf"
+    canHazPhoneCalls({
+        FLASH_MIC_TEST_SWIFF: "mic.swf"
     });
-    // canHazPhoneCalls.report(function (who, what) {
-    //     results.innerHTML += who + ": " + what + "<br />";
-    // });
+
     canHazPhoneCalls.check(function report (message) {
         addMessage(message);
     },
