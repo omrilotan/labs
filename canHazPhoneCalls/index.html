@@ -41,6 +41,9 @@ body {
     float:left;
     margin:1em 1%;
 }
+.message.fail {
+    background:#aa0000;
+}
         </style>
     </head>
     <body>
@@ -50,20 +53,42 @@ body {
         </div>
         <script src="canHazPhoneCalls.js"></script>
         <script>
+var messages = {
+    WEBRTC_WAITING_FOR_MICROPHONE: "Detected webRTC communication, Waiting for microphone access",
+    DETECTING_MICROPHONE_INPUT: "Waiting for microphone input",
+    ALLOW_MICROPHONE_ACCESS: "Please allow microphone access",
+    MICROPHONE_DETECTED: "Microphone detected, All clear!",
+    
+    FLASH_WAITING_FOR_MICROPHONE: "Detected Flash communication, Waiting for microphone access",
+    FLASH_MICROPHONE_DETECTED: "Microphone detected, All clear!",
+    
+    NO_AVAILABLE_MEDIA: "No supported media. Can not engage voice",
+    NO_MICROPHONE_DETECTED: "No microphone detected. Can not engage voice"
+};
+var addMessage = function (message, className) {
+    var div = document.createElement("div");
+    div.className = "message" + (typeof className === "string" ? " " + className : "");
+    div.innerHTML = typeof messages[message] === "string" ? messages[message] : message;
+    results.appendChild(div);
+};
 document.getElementById("test").onclick = function () {
     var results = document.getElementById("results");
     results.innerHTML = "";
-    var result = canHazPhoneCalls.enlist({
+    
+    canHazPhoneCalls.resources({
         "FLASH_MICROPHONE_TEST": "mic.swf"
     });
     // canHazPhoneCalls.report(function (who, what) {
     //     results.innerHTML += who + ": " + what + "<br />";
     // });
-    canHazPhoneCalls.check(function (message) {
-        var div = document.createElement("div");
-        div.className = "message";
-        div.innerHTML = message;
-        results.appendChild(div);
+    canHazPhoneCalls.check(function report (message) {
+        addMessage(message);
+    },
+    function pass (message) {
+        addMessage(message);
+    },
+    function fail (message) {
+        addMessage(message, "fail");
     });
 };
         </script>
