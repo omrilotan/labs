@@ -249,7 +249,7 @@ var canHazPhoneCalls = (function __canHazPhoneCalls__ (window, navigator, docume
     };
 
     exports.report = function canHazPhoneCalls$report (fn) {
-        if (!_resources) {
+        if (!resources) {
             return;
         }
         detect.webRTC(fn);
