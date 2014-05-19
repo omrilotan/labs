@@ -125,7 +125,14 @@ var canHazPhoneCalls = (function __canHazPhoneCalls__ (window, navigator, docume
     };
 
     detect.flash_mic = function canHazPhoneCalls$_detect$flash_mic (fn) {
-        var object,
+        var finished = false,
+            timer = setTimeout(function () {
+                finished = true;
+                register("FLASH_MICROPHONE",
+                        false,
+                        fn);
+            }, (5 * 1000)),
+            object,
             param,
             embed,
             name = "flash_mic_detect",
@@ -184,6 +191,7 @@ var canHazPhoneCalls = (function __canHazPhoneCalls__ (window, navigator, docume
             register("FLASH_MICROPHONE",
                     mics.length > 0,
                     fn);
+            clearTimeout(timer);
             delete window.flashLoaded;
         };
 
@@ -203,11 +211,11 @@ var canHazPhoneCalls = (function __canHazPhoneCalls__ (window, navigator, docume
         detect.flash_mic(fn);
         return exports;
     };
-    exports.check = function canHazPhoneCalls$check (callback) {
+    exports.check = function canHazPhoneCalls$check (report, pass, fail) {
         var responses = {
             WEBRTC: function (who, what) {
                 if (!!what) {
-                    callback("Using WebRTC, Waiting for microphone access...");
+                    report("Using WebRTC, Waiting for microphone access...");
                     detect.userMedia_mic(responses.USER_MEDIA_MICROPHONE);
                 } else {
                     detect.flash(responses.FLASH);
@@ -215,27 +223,32 @@ var canHazPhoneCalls = (function __canHazPhoneCalls__ (window, navigator, docume
             },
             USER_MEDIA_MICROPHONE: function (who, what) {
                 if (!!what) {
-                    callback("Microphone Detected!");
+                    report("Microphone Detected");
+                    pass();
                 } else {
-                    callback("No Microphone Access");
+                    report("No Microphone Detected");
+                    fail();
                 }
             },
             FLASH: function (who, what) {
                 if (!!what) {
-                    callback("Using Flash, Waiting for microphone access...");
+                    report("Using Flash, Waiting for microphone access...");
                     detect.flash_mic(responses.FLASH_MICROPHONE);
                 } else {
-                    callback("No Available Media");
+                    report("No Available Media");
                 }
             },
             FLASH_MICROPHONE: function (who, what) {
                 if (!!what) {
-                    callback("Flash Microphone Detected!");
+                    report("Flash Microphone Detected!");
                 } else {
-                    callback("No Available Media");
+                    report("No Available Media");
                 }
             }
         };
+        report = typeof report === "function" ? report : function () {};
+        pass = typeof pass === "function" ? pass : function () {};
+        fail = typeof fail === "function" ? fail : function () {};
         detect.webRTC(responses.WEBRTC);
     };
 
