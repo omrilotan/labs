@@ -1,0 +1,71 @@
+
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
+        <title>
+            Audio Call Feasible
+        </title>
+        <style>
+* { margin:0; padding:0; border:0; }
+html { height:100%; }
+body {
+    font:normal 16px/24px sans-serif;
+}
+.button {
+    display:block;
+    border:3px outset #aaa;
+    background:#ddd;
+    color:#fff;
+    text-align:center;
+    font-size:48px;
+    line-height:96px;
+    border-radius:16px;
+    cursor:pointer;
+    margin:1em;
+}
+.button:hover {
+    border:3px inset #aaa;
+    color:#bbb;
+}
+.message {
+    width:29%;
+    min-height:80px;
+    border-radius:5px;
+    background:#00aa00;
+    color:white;
+    text-align:center;
+    padding:1em 1%;
+    float:left;
+    margin:1em 1%;
+}
+        </style>
+    </head>
+    <body>
+        <a class="button" id="test">test</a>
+        <div id="results"></div>
+        <div style="height:200px; text-align:center;">
+        </div>
+        <script src="canHazPhoneCalls.js"></script>
+        <script>
+document.getElementById("test").onclick = function () {
+    var results = document.getElementById("results");
+    results.innerHTML = "";
+    var result = canHazPhoneCalls.enlist({
+        "FLASH_MICROPHONE_TEST": "mic.swf"
+    });
+    // canHazPhoneCalls.report(function (who, what) {
+    //     results.innerHTML += who + ": " + what + "<br />";
+    // });
+    canHazPhoneCalls.check(function (message) {
+        var div = document.createElement("div");
+        div.className = "message";
+        div.innerHTML = message;
+        results.appendChild(div);
+    });
+};
+        </script>
+    </body>
+</html>
