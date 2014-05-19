@@ -132,7 +132,7 @@ var canHazPhoneCalls = (function __canHazPhoneCalls__ (window, navigator, docume
                             fn);
                 });
         } else {
-            register("USER_MEDIA_MICROPHONE",
+            register(constants.services[2],
                     false,
                     fn);
         }
@@ -183,7 +183,7 @@ var canHazPhoneCalls = (function __canHazPhoneCalls__ (window, navigator, docume
             param,
             embed,
             name = "flash_mic_detect",
-            src = _resources.FLASH_MICROPHONE_TEST,
+            src = resources.FLASH_MICROPHONE_TEST,
             first = document.getElementById(name),
             createElementWithAttributes = function createElementWithAttributes (tag, attributes) {
                 var element = document.createElement(tag);
