@@ -35,12 +35,18 @@ var canHazPhoneCalls = (function __canHazPhoneCalls__ (window, navigator, docume
     // USER_MEDIA_MICROPHONE
     detect[constants.s[2]] = function canHazPhoneCalls$_detect$USER_MEDIA_MICROPHONE (next) {
         var limits = {
-                fail: 20 * 1000,    // Total time after which the test is considered to have failed
+                fail: 7 * 1000,    // Total time after which the test is considered to have failed
                 allow: 5 * 1000,    // After this time a message is prompted to allow microphone access
                 silence: 5 * 1000,    // After microphone access was granted, time to wait for sound
             },
 
+            timeoutInervals = 0,
+
             finished = false,    // prevent repetitive tests
+            
+            // Microphone response time measurement
+            start = (new Date()).getTime(),
+            end,
             
             timers = {},
             clearTimers = function clearTimers () {
@@ -53,10 +59,22 @@ var canHazPhoneCalls = (function __canHazPhoneCalls__ (window, navigator, docume
                     }
                 }
             },
-            
-            // Microphone response time measurement
-            start,
-            end,
+
+            failTimer = function failTimer () {
+                if (++timeoutInervals < 3) {
+                    callback(constants.t[2],    // PROMPT
+                            constants.m[10]);    // PLEASE_WAIT
+                    timers.fail = setTimeout(failTimer, limits.fail);
+                } else {
+                    finished = true;
+                    clearTimers();
+
+                    end = (new Date()).getTime();
+                    next(false,
+                        constants.r[0],    // TIMEOUT
+                        (end - start) / 1000);
+                }
+            },
 
             // getUserMedia Callbacks
             success,
@@ -80,12 +98,7 @@ var canHazPhoneCalls = (function __canHazPhoneCalls__ (window, navigator, docume
 
         
         // Fail timer
-        timers.fail = setTimeout(function failTimer () {
-            finished = true;
-            clearTimers();
-            next(false,
-                constants.r[0]);    // TIMEOUT
-        }, limits.fail);
+        timers.fail = setTimeout(failTimer, limits.fail);
         
         // Allow timer: when waiting for the "Allow" of microphone use
         timers.allow = setTimeout(function allowTimer () {
@@ -328,7 +341,7 @@ var canHazPhoneCalls = (function __canHazPhoneCalls__ (window, navigator, docume
             var args = toArray(arguments),
                 condition = args.shift();
             if (!!condition) {
-                args.unshift(constants.t[0],    // PASS
+                args.unshift(constants.t[3],    // FINALLY
                         constants.m[3]);    // MICROPHONE_DETECTED
                 callback.apply(null, args);
             } else {
@@ -360,7 +373,7 @@ var canHazPhoneCalls = (function __canHazPhoneCalls__ (window, navigator, docume
                 condition = args.shift();
             if (!!condition &&
                     typeof FLASH_MIC_TEST_SWIFF === constants.o[0]) {
-                args.unshift(constants.t[0],    // PASS
+                args.unshift(constants.t[3],    // FINALLY
                         constants.m[5]);    // FLASH_MICROPHONE_DETECTED
                 callback.apply(null, args);
             } else {
@@ -383,7 +396,8 @@ var canHazPhoneCalls = (function __canHazPhoneCalls__ (window, navigator, docume
             t: {
                 0: "PASS",
                 1: "FAIL",
-                2: "PROMPT"
+                2: "PROMPT",
+                3: "FINALLY"
             },
 
             // Reasons
@@ -407,7 +421,8 @@ var canHazPhoneCalls = (function __canHazPhoneCalls__ (window, navigator, docume
 
                 8: "UNABLE_TO_ACCESS_USER_MICROPHONE",
 
-                9: "MICROPHONE_RESPONSE_TIME"
+                9: "MICROPHONE_RESPONSE_TIME",
+                10: "PLEASE_WAIT"
             },
 
             // Service
