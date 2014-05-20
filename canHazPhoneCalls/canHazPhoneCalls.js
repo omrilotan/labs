@@ -228,7 +228,7 @@ var canHazPhoneCalls = (function __canHazPhoneCalls__ (window, navigator, docume
             timer = setTimeout(function () {
                 finished = true;
                 next(false,
-                        constants.m[8]);    // UNABLE_TO_ACCESS_USER_MICROPHONE
+                        constants.r[0]);    // TIMEOUT
             }, (5 * 1000)),
             object,
             param,
@@ -345,12 +345,12 @@ var canHazPhoneCalls = (function __canHazPhoneCalls__ (window, navigator, docume
             if (!!condition) {
                 args.unshift(constants.t[2],    // PROMPT
                         constants.m[4]);    // FLASH_WAITING_FOR_MICROPHONE
-                callback.apply(null, args);    // FLASH_WAITING_FOR_MICROPHONE
+                callback.apply(null, args);
                 detect[constants.s[3]](responses[constants.s[3]]);
             } else {
                 args.unshift(constants.t[1],    // FAIL
                         constants.m[6]);    // NO_AVAILABLE_MEDIA
-                callback.apply(null, args);    // NO_AVAILABLE_MEDIA
+                callback.apply(null, args);
             }
         };
 
@@ -362,11 +362,11 @@ var canHazPhoneCalls = (function __canHazPhoneCalls__ (window, navigator, docume
                     typeof FLASH_MIC_TEST_SWIFF === constants.o[0]) {
                 args.unshift(constants.t[0],    // PASS
                         constants.m[5]);    // FLASH_MICROPHONE_DETECTED
-                callback.apply(null, args);    // FLASH_MICROPHONE_DETECTED
+                callback.apply(null, args);
             } else {
                 args.unshift(constants.t[1],    // FAIL
                         constants.m[7]);    // NO_MICROPHONE_DETECTED
-                callback.apply(null, args);    // NO_MICROPHONE_DETECTED
+                callback.apply(null, args);
             }
         };
 

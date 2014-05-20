@@ -40,6 +40,7 @@ body {
     padding:1em 1%;
     float:left;
     margin:1em 1%;
+    white-space:pre-line;
 }
 .message.fail {
     background:#aa0000;
@@ -76,7 +77,7 @@ var addMessage = function (message, options) {
     
     options = options || {};
     var div = document.createElement("div");
-    div.className = "message" + (options.fail ? " " + options.className : "");
+    div.className = "message" + (options.fail ? " fail" : "");
     div.innerHTML = message;
     results.appendChild(div);
 
@@ -105,7 +106,7 @@ document.getElementById("test").onclick = function () {
                         translations[message] :
                         message);
             });
-            return collection.join(" ");
+            return collection.join("\n");
         }(args));
         switch (type) {
             case "PROMPT":
