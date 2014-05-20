@@ -53,7 +53,7 @@ body {
         </div>
         <script src="canHazPhoneCalls.js"></script>
         <script>
-var messages = {
+var translations = {
     WEBRTC_WAITING_FOR_MICROPHONE: "Detected webRTC communication, Waiting for microphone access",
     DETECTING_MICROPHONE_INPUT: "Waiting for microphone input",
     ALLOW_MICROPHONE_ACCESS: "Please allow microphone access",
@@ -63,13 +63,23 @@ var messages = {
     FLASH_MICROPHONE_DETECTED: "Microphone detected, All clear!",
     
     NO_AVAILABLE_MEDIA: "No supported media. Can not engage voice",
-    NO_MICROPHONE_DETECTED: "No microphone detected. Can not engage voice"
+    NO_MICROPHONE_DETECTED: "No microphone detected. Can not engage voice",
+
+    UNABLE_TO_ACCESS_USER_MICROPHONE: "Unable to access your microphone",
+
+    MICROPHONE_RESPONSE_TIME: "Microphone response time: ",
+
+    TIMEOUT: "Test has timed out",
+    NO_SOUND_DETECTED: "No sound was heard"
 };
-var addMessage = function (message, className) {
+var addMessage = function (message, options) {
+    
+    options = options || {};
     var div = document.createElement("div");
-    div.className = "message" + (typeof className === "string" ? " " + className : "");
-    div.innerHTML = typeof messages[message] === "string" ? messages[message] : message;
+    div.className = "message" + (options.fail ? " " + options.className : "");
+    div.innerHTML = message;
     results.appendChild(div);
+
 };
 document.getElementById("test").onclick = function () {
     var results = document.getElementById("results");
@@ -79,15 +89,49 @@ document.getElementById("test").onclick = function () {
         FLASH_MIC_TEST_SWIFF: "mic.swf"
     });
 
-    canHazPhoneCalls.check(function report (message) {
-        addMessage(message);
-    },
-    function pass (message) {
-        addMessage(message);
-    },
-    function fail (message) {
-        addMessage(message, "fail");
+    canHazPhoneCalls.check(function report () {
+        var options,
+            message,
+            args = [].slice.call(arguments, 0),
+            type = args.shift();
+        if (typeof args[args.length - 1] === "object") {
+            options = args.pop();
+        }
+        options = options || {};
+        message = (function (messages) {
+            var collection = [];
+            messages.forEach(function (message) {
+                collection.push(typeof translations[message] === "string" ?
+                        translations[message] :
+                        message);
+            });
+            return collection.join(" ");
+        }(args));
+        switch (type) {
+            case "PROMPT":
+                addMessage(message, options);
+                break;
+            case "PASS":
+                addMessage(message, options);
+                break;
+            case "FAIL":
+                options.fail = true;
+                addMessage(message, options);
+                break;
+        }
     });
+
+    // canHazPhoneCalls.check(function report (message, options) {
+    //     addMessage(message, options);
+    // },
+    // function pass (message) {
+    //     addMessage(message);
+    // },
+    // function fail (message) {
+    //     addMessage(message, {
+    //         className: "fail"
+    //     });
+    // });
 };
         </script>
     </body>

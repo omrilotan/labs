@@ -1,66 +1,67 @@
-var canHazPhoneCalls = (function __canHazPhoneCalls__ (window, navigator, document) {
-    var constants = {
-            msg: {
-                0: "WEBRTC_WAITING_FOR_MICROPHONE",
-                1: "DETECTING_MICROPHONE_INPUT",
-                2: "ALLOW_MICROPHONE_ACCESS",
-                3: "MICROPHONE_DETECTED",
-                
-                4: "FLASH_WAITING_FOR_MICROPHONE",
-                5: "FLASH_MICROPHONE_DETECTED",
-                
-                6: "NO_AVAILABLE_MEDIA",
-                7: "NO_MICROPHONE_DETECTED"
-            },
-            svc: {
-                0: "WEBRTC",
-                1: "FLASH",
-                2: "USER_MEDIA_MICROPHONE",
-                3: "FLASH_MICROPHONE"
-            }
-        },
+var canHazPhoneCalls = (function __canHazPhoneCalls__ (window, navigator, document, constants, undefined) {
 
         // Interface
-        exports = {},
+    var exports = {},
 
         // Detection methods
         detect = {},
 
         // flash file tests microphone presence
         FLASH_MIC_TEST_SWIFF,
-        // FLASH_MIC_TEST_SWIFF = "data:application/x-shockwave-flash;base64,Q1dTCnUIAAB4nKVVXXPaRhTdRcCCANv4A9tJ01KcTl8KWmE7GMamdcE0zBTjMX7oS6espZVRo6+RhIGn5md1pg/5C/Slf6e9QhDjOMk4qQZmd++ec+7V0dXKQak/EfrrNdrBqJndQQj9sRGNIXTsqlrtstnKj03D8mqwOikMfN+pSdJoNCqN9ku2eyPJ1WpVomWpXC4CouhNLJ+Ni5a3V6jnZwpN7imu7vi6beWDNbu2h/5JoTCXHZvOW1nLKzHVvuYlxTalMXMkuUSlQAdAtYbLmW+7V7Zt1E8DVL5lMG+Qv3BtjXseyDMj3+gdHkvvopf4vAn/epnKcpFWinT/qlyu7e/XysGyRukSN0SG1A73mcp8dp98cEXl2j7Qqsvke9g53VZ1bfIo8h0yfyy9497j/FSVt3Y6Q9eYPSNVkbjBTW75HlgqzyxVlZpmuybz68xxDF1hgaA0LnoDW3k1Yre8qAX2Hkt3wM8tCe6s0/n4QzZNaYH2/EuufRztXU0cLl1yzx66Cgf43rxJOh2oxdVvudpybXNWi8Ncjwf4k8KCEIBnWWq65fnMUni7WQd2SdfVWqtSacly5YBWyvTFkSwfHTVeNA/OqjI9qzQPD6rH0gPqQk21lWFg8lxN/QS1JepCzXb1Gx16uvn5qu+RyM8a7b5Pd949THV6WG7RJv2xLH8o1QPqQq390NzHqrWXzQ1D3f9jxwcl3tvS0vzgq+dRI4L+RW+2UnAoYtRTuMXzMkJvNteFIADXGioFwzcoemvrauzUddkkfj40r7lLTF35DV6idIfp1pVuckO3eGb2VkHZnmOwSbJj3+q8YejO5hxcWwZn4WUczU65Hvd93brxEgA7Zyb34kOPd3RFgHUqlDS5qjMRYq7tDGyLxzUXgHI63PUmns/NRI8rQ1f3J5nF5IJZ3BA77cZl9+Jl9/wsHaRcZItZQarMDffvZFdCPT72uQteZs/mk7YFo8YUnmKq2mCGcc2UV2FpP9tM5WpUgeAKbLaCunozv+Pd69+54s9r5LfBCbV6FgxNMIj5yoC7mWboVQjNzvIwxYfmDSO5e/sNG74/YJ0b7zlwf1zM4VwsR3aSuZXtWC6b28l9hb4gOEKwQHCUROJESBAsEpwiOE1whsRWSXyNkHVCNgjeJHiL4BzB2ySxS/ATgoH7jOAvSTJPhK+JUCDCHhGek6AHZg0RgQEL6P6Fo7FEFMVicYwwwSiSwEhIIiSiFEZR2I7jaBQjAsykKEzpTxCKYDGVntJ+up/RVrqrGGIRDDECMVFbe4mQEBFCiPh3K4tfi/8AJCoAhEJs/TtxqsW7GxGYpaYaCWfpqZaA2bQvtrJokITI0+5mIB0LeGtTOm2jX7eeo6mW6m5FIB6HnMlvp5Sjfo72t2l/h/Z3af8J7T+l/Rj8fkHPwmsQBfj3G7tzG+bdXFruZvQDbPwH0DZtfg==",
 
-        register = function (who, what, fn) {
-            if (typeof fn === "function") {
+        callback,
+
+        toArray = function toArray (args) {
+            return [].slice.call(args, 0);
+        },
+
+        register = function canHazPhoneCalls$_register (who, what, fn) {
+            if (typeof fn === constants.o[1]) {
                 fn(who, what);
             }
         };
-    detect.webRTC = function canHazPhoneCalls$_detect$webRTC (fn) {
+
+    // WEBRTC
+    detect[constants.s[0]] = function canHazPhoneCalls$_detect$WEBRTC (next) {
+        var result;
         window.RTCPeerConnection = window.RTCPeerConnection ||
                 window.webkitRTCPeerConnection ||
                 window.mozRTCPeerConnection ||
                 window.msRTCPeerConnection;
 
-        register(constants.svc[0],    // WEBRTC_WAITING_FOR_MICROPHONE
-                typeof window.RTCPeerConnection === "function",
-                fn);
+        next(typeof window.RTCPeerConnection === constants.o[1]);
     };
-    detect.userMedia_mic = function canHazPhoneCalls$_detect$userMedia_mic (fn, report) {
-        var finished = false,
-            timer = setTimeout(function () {
-                finished = true;
-                register(constants.svc[2],
-                        false,
-                        fn);
-                clearTimeout(timer);
-            }, (40 * 1000)),
-            allowTimer = setTimeout(function () {
-                clearTimeout(allowTimer);
-                report(constants.msg[2]);
-            }, (5 * 1000)),
+
+    // USER_MEDIA_MICROPHONE
+    detect[constants.s[2]] = function canHazPhoneCalls$_detect$USER_MEDIA_MICROPHONE (next) {
+        var limits = {
+                fail: 20 * 1000,    // Total time after which the test is considered to have failed
+                allow: 5 * 1000,    // After this time a message is prompted to allow microphone access
+                silence: 5 * 1000,    // After microphone access was granted, time to wait for sound
+            },
+
+            finished = false,    // prevent repetitive tests
+            
+            timers = {},
+            clearTimers = function clearTimers () {
+                var key;
+
+                //  clear all timeouts
+                for (key in timers) {
+                    if (timers.hasOwnProperty(key)) {
+                        clearTimeout(timers[key]);
+                    }
+                }
+            },
+            
+            // Microphone response time measurement
             start,
-            end;
-        
+            end,
+
+            // getUserMedia Callbacks
+            success,
+            fail;
+
         navigator.getUserMedia = navigator.getUserMedia ||
                 navigator.webkitGetUserMedia ||
                 navigator.mozGetUserMedia ||
@@ -71,82 +72,126 @@ var canHazPhoneCalls = (function __canHazPhoneCalls__ (window, navigator, docume
                 window.mozAudioContext ||
                 window.msAudioContext;
 
-        if (typeof navigator.getUserMedia === "function") {
-            start = (new Date()).getTime();
-            navigator.getUserMedia({ audio: true },
-                function (stream) {
-                    clearTimeout(allowTimer);
-                    try {
-                        var audioContext = new window.AudioContext(),
-                            analyser = audioContext.createAnalyser(),
-                            microphone = audioContext.createMediaStreamSource(stream),
-                            javascriptNode = audioContext.createJavaScriptNode(2048, 1, 1);
-                    } catch (err) {
-                        report(err.message);
-                        return;
-                    }
-
-                    analyser.smoothingTimeConstant = 0.3;
-                    analyser.fftSize = 1024;
-    
-                    microphone.connect(analyser);
-                    analyser.connect(javascriptNode);
-                    javascriptNode.connect(audioContext.destination);
-
-                    report(constants.msg[1]);
-                    javascriptNode.onaudioprocess = function () {
-                        if (finished === true) {
-                            return;
-                        }
-                        clearTimeout(timer);
-                        timer = setTimeout(function () {
-                            finished = true;
-                            register(constants.svc[2],
-                                    false,
-                                    fn);
-                            clearTimeout(timer);
-                        }, (5 * 1000));
-
-                        var array = new Uint8Array(analyser.frequencyBinCount),
-                            len = array.length,
-                            i = 0,
-                            values = 0,
-                            average;
-                        analyser.getByteFrequencyData(array);
-
-                        for (; i < len; i++) {
-                            values += array[i];
-                        }
-
-                        average = values / len;
-                        if (average > 0) {
-                            finished = true;
-                            register(constants.svc[2],
-                                    true,
-                                    fn);
-                            clearTimeout(allowTimer);
-                            clearTimeout(timer);
-                            end = (new Date()).getTime();
-                            console.log((end - start) / 1000 + " Seconds");
-                        }
-                    }
-                }, function () {
-                    clearTimeout(allowTimer);
-                    clearTimeout(timer);
-                    if (finished === true) {
-                        return;
-                    }
-                    register(constants.svc[2],
-                            false,
-                            fn);
-                });
-        } else {
-            register(constants.svc[2],
-                    false,
-                    fn);
+        // No available getUserMedia method. abort
+        if (typeof navigator.getUserMedia !== constants.o[1]) {
+            next(false);
+            return;
         }
+
+        
+        // Fail timer
+        timers.fail = setTimeout(function failTimer () {
+            finished = true;
+            clearTimers();
+            next(false,
+                constants.r[0]);    // TIMEOUT
+        }, limits.fail);
+        
+        // Allow timer: when waiting for the "Allow" of microphone use
+        timers.allow = setTimeout(function allowTimer () {
+            clearTimeout(timers.allow);
+            callback(constants.t[2],    // PROMPT
+                    constants.m[2]);    // ALLOW_MICROPHONE_ACCESS
+        }, limits.allow);
+
+        success = function getUserMediaSuccess (stream) {
+            
+            // Microphone access granted
+            clearTimeout(timers.allow);
+            start = (new Date()).getTime();
+
+            var audioContext,
+                analyser,
+                microphone,
+                node;
+            try {
+                var audioContext = new window.AudioContext(),
+                    analyser = audioContext.createAnalyser(),
+                    microphone = audioContext.createMediaStreamSource(stream);
+                if (typeof audioContext.createJavaScriptNode === constants.o[1]) {
+                    node = audioContext.createJavaScriptNode(2048, 1, 1);
+                } else if (typeof audioContext.createScriptProcessor === constants.o[1]) {
+                    node = audioContext.createScriptProcessor(2048, 1, 1);
+                } else {
+                    throw new Error(constants.m[8]);    // UNABLE_TO_ACCESS_USER_MICROPHONE
+                }
+            } catch (err) {
+                clearTimers();
+                next(false, err.message);
+                return;
+            }
+
+            analyser.smoothingTimeConstant = 0.3;
+            analyser.fftSize = 1024;
+
+            microphone.connect(analyser);
+            analyser.connect(node);
+            node.connect(audioContext.destination);
+
+            callback(constants.t[2],    // PROMPT
+                    constants.m[1]);    // DETECTING_MICROPHONE_INPUT
+            
+            // Now we wait to hear the microphone
+            // NOTE: This may take a couple of seconds to kick in
+            node.onaudioprocess = function audioprocess () {
+                if (finished === true) {
+                    return;
+                }
+
+                // First part worked, clear timers
+                clearTimers();
+
+                // Silence timer: in case we can't hear anything within 5 seconds
+                timers.silence = setTimeout(function silenceTimer () {
+                    finished = true;
+                    clearTimers();
+                    next(false,    // FAIL
+                            constants.r[1]);    // NO_SOUND_DETECTED
+                }, limits.silence);
+
+                // Count the bits in the incoming frequency
+                var array = new Uint8Array(analyser.frequencyBinCount),
+                    len = array.length,
+                    i = 0,
+                    values = 0,
+                    average;
+                analyser.getByteFrequencyData(array);
+
+                // Adding up the frequencies
+                for (; i < len; i++) {
+                    values += array[i];
+                }
+
+                average = values / len;
+                
+                if (average > 0) {
+                    finished = true;
+                    clearTimers();
+
+                    next(true);
+                    
+                    end = (new Date()).getTime();
+                    callback(constants.t[2],    // PROMPT
+                            constants.m[9],    // MICROPHONE_RESPONSE_TIME
+                            (end - start) / 1000);
+                }
+            }
+        };
+        fail = function getUserMediaFail () {
+            clearTimers();
+            if (finished === true) {
+                return;
+            }
+            callback(constants.t[1],    // FAIL
+                    constants.m[8]);    // UNABLE_TO_ACCESS_USER_MICROPHONE
+        };
+
+        // Begin
+        navigator.getUserMedia({ audio: true }, success, fail);
     };
-    detect.flash = function canHazPhoneCalls$_detect$flash (fn) {
+
+    // FLASH
+    detect[constants.s[1]] = function canHazPhoneCalls$_detect$FLASH (next) {
         var type = "application/x-shockwave-flash",
             plugins = navigator.plugins,
             mimeTypes,
@@ -159,9 +204,8 @@ var canHazPhoneCalls = (function __canHazPhoneCalls__ (window, navigator, docume
                     mimeTypes[type]) {
                 try {
                     version = parseInt(mimeTypes[type].enabledPlugin.description.replace(/[a-zA-Z]/g, ""), 10);
-                    register(constants.svc[1],
-                            version > 10,
-                            fn);
+                    next(version > 10);
+
                 } catch (err) {
                     // do nothing
                 }
@@ -174,19 +218,17 @@ var canHazPhoneCalls = (function __canHazPhoneCalls__ (window, navigator, docume
             } catch (err) {
                 version = -1;
             }
-            register(constants.svc[1],
-                    version !== -1,
-                    fn);
+            next(version !== -1);
         }
     };
 
-    detect.flash_mic = function canHazPhoneCalls$_detect$flash_mic (fn) {
+    // FLASH_MICROPHONE
+    detect[constants.s[3]] = function canHazPhoneCalls$_detect$FLASH_MICROPHONE (next) {
         var finished = false,
             timer = setTimeout(function () {
                 finished = true;
-                register(constants.svc[3],
-                        false,
-                        fn);
+                next(false,
+                        constants.m[8]);    // UNABLE_TO_ACCESS_USER_MICROPHONE
             }, (5 * 1000)),
             object,
             param,
@@ -243,9 +285,8 @@ var canHazPhoneCalls = (function __canHazPhoneCalls__ (window, navigator, docume
                     window[name] :
                     document[name],
                 mics = movie.micNames();
-            register(constants.svc[3],
-                    mics.length > 0,
-                    fn);
+
+            next(mics.length > 0);
             clearTimeout(timer);
             delete window.flashLoaded;
         };
@@ -254,57 +295,132 @@ var canHazPhoneCalls = (function __canHazPhoneCalls__ (window, navigator, docume
 
     exports = function canHazPhoneCalls (options) {
         options = options || {};
-        if (typeof options.FLASH_MIC_TEST_SWIFF === "string") {
+        if (typeof options.FLASH_MIC_TEST_SWIFF === constants.o[0]) {
             FLASH_MIC_TEST_SWIFF = options.FLASH_MIC_TEST_SWIFF;
         }
     };
 
-    exports.check = function canHazPhoneCalls$check (report, pass, fail) {
+    exports.check = function canHazPhoneCalls$check (fn) {
         var responses = {};
+        if (typeof fn !== constants.o[1]) {
+            return;
+        }
+        callback = fn;
 
         // WEBRTC
-        responses[constants.svc[0]] = function (who, what) {
-            if (!!what) {
-                report(constants.msg[0]);
-                detect.userMedia_mic(responses[constants.svc[2]], report);
+        responses[constants.s[0]] = function () {
+            var args = toArray(arguments),
+                condition = args.shift();
+            args.unshift(constants.t[2],    // PROMPT
+                    constants.m[0]);    // WEBRTC_WAITING_FOR_MICROPHONE
+            if (!!condition) {
+                callback.apply(null, args);    // WEBRTC_WAITING_FOR_MICROPHONE
+                detect[constants.s[2]](responses[constants.s[2]]);
             } else {
-                detect.flash(responses.FLASH);
+
+                // FLASH
+                detect[constants.s[1]](responses[constants.s[1]]);
             }
         };
 
         // USER_MEDIA_MICROPHONE
-        responses[constants.svc[2]] = function (who, what) {
-            if (!!what) {
-                pass(constants.msg[3]);
+        responses[constants.s[2]] = function () {
+            var args = toArray(arguments),
+                condition = args.shift();
+            if (!!condition) {
+                args.unshift(constants.t[0],    // PASS
+                        constants.m[3]);    // MICROPHONE_DETECTED
+                callback.apply(null, args);
             } else {
-                fail(constants.msg[7]);
+                args.unshift(constants.t[1],    // FAIL
+                        constants.m[7]);    // NO_MICROPHONE_DETECTED
+                callback.apply(null, args);
             }
         };
 
         // FLASH
-        responses[constants.svc[1]] = function (who, what) {
-            if (!!what) {
-                report(constants.msg[4]);
-                detect.flash_mic(responses[constants.svc[3]]);
+        responses[constants.s[1]] = function () {
+            var args = toArray(arguments),
+                condition = args.shift();
+            if (!!condition) {
+                args.unshift(constants.t[2],    // PROMPT
+                        constants.m[4]);    // FLASH_WAITING_FOR_MICROPHONE
+                callback.apply(null, args);    // FLASH_WAITING_FOR_MICROPHONE
+                detect[constants.s[3]](responses[constants.s[3]]);
             } else {
-                fail(constants.msg[6]);
+                args.unshift(constants.t[1],    // FAIL
+                        constants.m[6]);    // NO_AVAILABLE_MEDIA
+                callback.apply(null, args);    // NO_AVAILABLE_MEDIA
             }
         };
 
         // FLASH_MICROPHONE
-        responses[constants.svc[3]] = function (who, what) {
-            if (!!what && typeof FLASH_MIC_TEST_SWIFF === "string") {
-                pass(constants.msg[5]);
+        responses[constants.s[3]] = function () {
+            var args = toArray(arguments),
+                condition = args.shift();
+            if (!!condition &&
+                    typeof FLASH_MIC_TEST_SWIFF === constants.o[0]) {
+                args.unshift(constants.t[0],    // PASS
+                        constants.m[5]);    // FLASH_MICROPHONE_DETECTED
+                callback.apply(null, args);    // FLASH_MICROPHONE_DETECTED
             } else {
-                fail(constants.msg[7]);
+                args.unshift(constants.t[1],    // FAIL
+                        constants.m[7]);    // NO_MICROPHONE_DETECTED
+                callback.apply(null, args);    // NO_MICROPHONE_DETECTED
             }
         };
-        report = typeof report === "function" ? report : function empty () {};
-        pass = typeof pass === "function" ? pass : function empty () {};
-        fail = typeof fail === "function" ? fail : function empty () {};
-        detect.webRTC(responses.WEBRTC);
+
+        // Begin
+        detect[constants.s[0]](responses[constants.s[0]]);
     };
 
     return exports;
 
-}(window, navigator, document, undefined));
+}(window, navigator, document, {
+    
+        // constants:
+            // Type
+            t: {
+                0: "PASS",
+                1: "FAIL",
+                2: "PROMPT"
+            },
+
+            // Reasons
+            r: {
+                0: "TIMEOUT",
+                1: "NO_SOUND_DETECTED"
+            },
+
+            // Message
+            m: {
+                0: "WEBRTC_WAITING_FOR_MICROPHONE",
+                1: "DETECTING_MICROPHONE_INPUT",
+                2: "ALLOW_MICROPHONE_ACCESS",
+                3: "MICROPHONE_DETECTED",
+                
+                4: "FLASH_WAITING_FOR_MICROPHONE",
+                5: "FLASH_MICROPHONE_DETECTED",
+                
+                6: "NO_AVAILABLE_MEDIA",
+                7: "NO_MICROPHONE_DETECTED",
+
+                8: "UNABLE_TO_ACCESS_USER_MICROPHONE",
+
+                9: "MICROPHONE_RESPONSE_TIME"
+            },
+
+            // Service
+            s: {
+                0: "WEBRTC",
+                1: "FLASH",
+                2: "USER_MEDIA_MICROPHONE",
+                3: "FLASH_MICROPHONE"
+            },
+
+            // typeof
+            o: {
+                0: "string",
+                1: "function"
+            }
+        }));
